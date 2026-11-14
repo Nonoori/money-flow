@@ -1,1 +1,8 @@
 
+name = "money-flow"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "money-flow-db"
+database_id = "ISI_DATABASE_ID_DARI_CLOUDFLARE"
