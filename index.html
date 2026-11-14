@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Money Flow — Pelacak Arus Kas Pribadi & Usaha</title>
+  <title>Money Flow — Pelacak Arus Kas Pribadi & UMKM (Cloudflare D1)</title>
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Font Awesome 6 Icons -->
+  <!-- Font Awesome 6 CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <!-- Tailwind CSS CDN -->
@@ -25,26 +25,19 @@
           },
           colors: {
             slatebg: '#0B1120',
-            carddark: '#111827',
-            cardelevated: '#1E293B',
+            surface: '#111827',
+            elevated: '#1E293B',
             borderdark: '#1F2937',
-            emeraldbrand: '#10B981',
-            rosebrand: '#F43F5E',
-            indigobrand: '#6366F1',
           }
         }
       }
     };
   </script>
 
-  <!-- Chart.js CDN for Financial Visualizations -->
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-  <!-- Supabase JS Client CDN for Live PostgreSQL Cloud Sync -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <style>
-    /* Custom Fintech Scrollbar & Mobile App Shell Styling */
     * {
       -webkit-tap-highlight-color: transparent;
       box-sizing: border-box;
@@ -55,7 +48,6 @@
       overscroll-behavior-y: none;
     }
 
-    /* Hide horizontal scrollbar on wallet cards while preserving smooth touch scroll */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -64,7 +56,6 @@
       scrollbar-width: none;
     }
 
-    /* Custom subtle scrollbar for desktop */
     ::-webkit-scrollbar {
       width: 5px;
       height: 5px;
@@ -73,15 +64,14 @@
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(99, 102, 241, 0.3);
+      background: rgba(99, 102, 241, 0.35);
       border-radius: 9999px;
     }
 
-    /* Slide-up Drawer & Fade Animations */
     @keyframes slideUp {
       from {
         transform: translateY(100%);
-        opacity: 0.6;
+        opacity: 0.7;
       }
       to {
         transform: translateY(0);
@@ -101,27 +91,27 @@
     }
 
     .animate-slide-up {
-      animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: slideUp 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .animate-fade-in {
       animation: fadeIn 0.2s ease-out forwards;
     }
 
-    /* Glassmorphism Header & Bottom Bar */
     .glass-dark {
-      background: rgba(11, 17, 32, 0.86);
+      background: rgba(11, 17, 32, 0.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
+
     .glass-light {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
     }
   </style>
 </head>
-<body class="bg-slate-200 dark:bg-[#060A14] text-slate-900 dark:text-slate-100 min-h-screen flex justify-center selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-200 dark:bg-[#050914] text-slate-900 dark:text-slate-100 min-h-screen flex justify-center selection:bg-indigo-500 selection:text-white">
 
   <!-- ===================================================================== -->
   <!-- MOBILE-FIRST APP SHELL (Max-Width 480px centered on desktop)          -->
@@ -131,54 +121,56 @@
     <!-- =================================================================== -->
     <!-- STICKY TOP HEADER                                                   -->
     <!-- =================================================================== -->
-    <header class="sticky top-0 z-30 px-4 py-3 border-b border-slate-200/80 dark:border-[#1F2937] glass-light dark:glass-dark flex items-center justify-between">
-      <div class="flex items-center gap-2.5">
-        <!-- Custom SVG Fintech Logo -->
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-md shadow-indigo-500/20">
-          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <header class="sticky top-0 z-30 px-4 py-3 border-b border-slate-200/80 dark:border-[#1F2937] glass-light dark:glass-dark flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <!-- App Logo -->
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-emerald-500 flex items-center justify-center shadow-md shadow-indigo-500/25 flex-shrink-0">
+          <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
           </svg>
         </div>
-        <div>
+
+        <div class="min-w-0">
           <div class="flex items-center gap-1.5">
-            <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none">Money Flow</h1>
-            <span id="cloudStatusBadge" onclick="openPrdModal('sync')" class="cursor-pointer inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25" title="Status Penyimpanan & Cloud Sync">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span id="cloudStatusText">Lokal</span>
-            </span>
+            <h1 class="text-base font-extrabold tracking-tight text-slate-900 dark:text-white leading-none truncate">Money Flow</h1>
+            <!-- Real-time Cloudflare D1 Sync Status Badge -->
+            <button id="d1StatusBadge" onclick="testAndSyncD1()" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 transition active:scale-95 flex-shrink-0" title="Ketuk untuk sinkronisasi Cloudflare D1">
+              <span id="d1StatusDot" class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+              <span id="d1StatusText">Mode Lokal</span>
+            </button>
           </div>
-          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Arus Kas Pribadi & Usaha</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">Keuangan Pribadi & UMKM</p>
         </div>
       </div>
 
-      <!-- Header Actions: PRD Blueprint Button + Balance Eye Toggle + Theme Toggle -->
-      <div class="flex items-center gap-1.5">
-        <button onclick="openPrdModal('prd')" class="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 transition flex items-center gap-1" title="Lihat PRD & Langkah Full-Stack">
-          <i class="fas fa-book-open text-[10px]"></i>
-          <span>PRD</span>
+      <!-- Header Right Actions -->
+      <div class="flex items-center gap-1.5 flex-shrink-0">
+        <button onclick="openPrdModal('prd')" class="px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/25 transition flex items-center gap-1" title="Buka PRD & Panduan Cloudflare D1">
+          <i class="fas fa-book text-[10px]"></i>
+          <span>PRD & D1</span>
         </button>
 
-        <button id="togglePrivacyBtn" onclick="toggleHideBalance()" class="w-9 h-9 rounded-xl bg-slate-200/70 dark:bg-[#111827] hover:bg-slate-300/70 dark:hover:bg-[#1E293B] border border-slate-200 dark:border-[#1F2937] flex items-center justify-center text-slate-600 dark:text-slate-300 transition" title="Sembunyikan / Tampilkan Saldo">
+        <button onclick="toggleHideBalance()" class="w-9 h-9 rounded-xl bg-slate-200/70 dark:bg-[#111827] hover:bg-slate-300/70 dark:hover:bg-[#1E293B] border border-slate-200 dark:border-[#1F2937] flex items-center justify-center text-slate-600 dark:text-slate-300 transition" title="Sembunyikan / Tampilkan Saldo">
           <i id="privacyIcon" class="fas fa-eye text-xs"></i>
         </button>
 
-        <button id="themeToggleBtn" onclick="toggleTheme()" class="w-9 h-9 rounded-xl bg-slate-200/70 dark:bg-[#111827] hover:bg-slate-300/70 dark:hover:bg-[#1E293B] border border-slate-200 dark:border-[#1F2937] flex items-center justify-center text-amber-500 dark:text-indigo-300 transition" title="Ubah Tema Terang / Gelap">
+        <button onclick="toggleTheme()" class="w-9 h-9 rounded-xl bg-slate-200/70 dark:bg-[#111827] hover:bg-slate-300/70 dark:hover:bg-[#1E293B] border border-slate-200 dark:border-[#1F2937] flex items-center justify-center text-amber-500 dark:text-indigo-300 transition" title="Ubah Tema Terang / Gelap">
           <i id="themeIcon" class="fas fa-sun text-sm"></i>
         </button>
       </div>
     </header>
 
     <!-- =================================================================== -->
-    <!-- MAIN SCROLLABLE VIEWPORT                                            -->
+    <!-- MAIN SCROLLABLE CONTENT                                             -->
     <!-- =================================================================== -->
-    <main id="mainContent" class="flex-1 px-4 pt-3 pb-28 space-y-4 overflow-x-hidden">
+    <main id="mainContent" class="flex-1 px-4 pt-3.5 pb-28 space-y-4 overflow-x-hidden">
 
       <!-- ================================================================= -->
       <!-- TAB 1: BERANDA (DASHBOARD)                                        -->
       <!-- ================================================================= -->
       <section id="view-beranda" class="space-y-4 animate-fade-in">
 
-        <!-- Month / Year Switcher -->
+        <!-- Month & Year Switcher -->
         <div class="flex items-center justify-between bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl px-3 py-2 shadow-sm">
           <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1E293B] active:scale-95 transition" aria-label="Bulan Sebelumnya">
             <i class="fas fa-chevron-left text-xs"></i>
@@ -192,35 +184,32 @@
           </button>
         </div>
 
-        <!-- Hero Total Saldo / Net Worth Card -->
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#111827] via-[#172036] to-[#1E1B4B] border border-indigo-500/25 p-5 text-white shadow-xl shadow-indigo-950/20">
-          <!-- Decorative subtle glow circles -->
-          <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none"></div>
-          <div class="absolute -left-8 -bottom-10 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none"></div>
+        <!-- Hero Main Card: Total Saldo, Pemasukan, Pengeluaran, Arus Kas Bersih & Rasio Tabungan -->
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#111827] via-[#172136] to-[#1E1B4B] border border-indigo-500/25 p-5 text-white shadow-xl shadow-indigo-950/25">
+          <div class="absolute -right-10 -top-10 w-36 h-36 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none"></div>
+          <div class="absolute -left-10 -bottom-10 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none"></div>
 
           <div class="relative z-10">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gap-2">
               <span class="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                <i class="fas fa-shield-halved text-emerald-400"></i>
-                Total Saldo Semua Dompet
+                <i class="fas fa-wallet text-indigo-400"></i>
+                Total Saldo Seluruh Dompet
               </span>
               <span id="savingsRateBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                Rasio Tabungan +0%
+                Rasio Tabungan 0%
               </span>
             </div>
 
-            <div class="mt-2 flex items-baseline justify-between">
-              <h2 id="heroTotalBalance" class="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white">
-                Rp 0
-              </h2>
-            </div>
+            <h2 id="heroTotalBalance" class="text-2xl sm:text-[28px] font-extrabold tracking-tight text-white mt-2">
+              Rp 0
+            </h2>
 
-            <div class="mt-1.5 flex items-center gap-1.5 text-[11px] text-slate-300">
+            <div class="mt-1.5 flex items-center justify-between text-[11px] text-slate-300">
               <span>Arus Kas Bersih Bulan Ini:</span>
               <span id="heroNetCashflow" class="font-bold text-emerald-400">+Rp 0</span>
             </div>
 
-            <!-- Income & Expense Mini Summary Boxes -->
+            <!-- Pemasukan & Pengeluaran Grid -->
             <div class="grid grid-cols-2 gap-2.5 mt-4 pt-3.5 border-t border-white/10">
               <div class="bg-white/5 hover:bg-white/10 transition rounded-2xl p-3 border border-white/5">
                 <div class="flex items-center gap-2">
@@ -245,32 +234,32 @@
           </div>
         </div>
 
-        <!-- Horizontal Scrollable Wallets (Dompet) -->
+        <!-- Horizontal Scrollable Wallet Cards -->
         <div>
           <div class="flex items-center justify-between mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Dompet & Rekening</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Dompet Aktif</h3>
             <button onclick="switchTab('dompet', 'wallets')" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
               Kelola <i class="fas fa-arrow-right text-[10px] ml-0.5"></i>
             </button>
           </div>
           <div id="dashboardWalletsList" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- Monthly Budget Overview Bar -->
+        <!-- Monthly Budget Progress Summary -->
         <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-indigo-500/15 text-indigo-500 flex items-center justify-center">
                 <i class="fas fa-bullseye text-xs"></i>
               </div>
               <div>
-                <h3 class="text-xs font-bold text-slate-800 dark:text-white">Ringkasan Anggaran Bulanan</h3>
+                <h3 class="text-xs font-bold text-slate-900 dark:text-white">Progres Anggaran Bulanan</h3>
                 <p id="budgetOverviewSubtitle" class="text-[11px] text-slate-500 dark:text-slate-400">Terpakai Rp 0 dari Rp 0</p>
               </div>
             </div>
-            <button onclick="switchTab('dompet', 'budgets')" class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-300 hover:bg-indigo-500/15 hover:text-indigo-400 transition">
+            <button onclick="switchTab('dompet', 'budgets')" class="text-[11px] font-bold px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-300 hover:bg-indigo-500/15 hover:text-indigo-400 transition">
               Atur
             </button>
           </div>
@@ -285,34 +274,34 @@
           </div>
         </div>
 
-        <!-- Recent Transactions Grouped by Date -->
+        <!-- Recent Transactions Grouped by Date (with quick Edit & Delete) -->
         <div>
           <div class="flex items-center justify-between mb-2.5">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Transaksi Terbaru</h3>
             <button onclick="switchTab('transaksi')" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">
-              Lihat Semua
+              Semua Transaksi
             </button>
           </div>
           <div id="dashboardRecentTransactions" class="space-y-3">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
       </section>
 
       <!-- ================================================================= -->
-      <!-- TAB 2: TRANSAKSI (SEARCH & MULTI-FILTER FULL LIST)                -->
+      <!-- TAB 2: TRANSAKSI (REAL-TIME SEARCH & FILTERS)                     -->
       <!-- ================================================================= -->
       <section id="view-transaksi" class="hidden space-y-3.5 animate-fade-in">
 
-        <!-- Search Bar -->
+        <!-- Real-time Search Input -->
         <div class="relative">
           <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
           <input
             type="text"
             id="txSearchInput"
             oninput="handleTxSearch(this.value)"
-            placeholder="Cari catatan, pelanggan, atau kategori..."
+            placeholder="Cari catatan transaksi atau nama kategori..."
             class="w-full pl-9 pr-9 py-2.5 rounded-2xl bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition"
           />
           <button id="clearSearchBtn" onclick="clearTxSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-white">
@@ -322,7 +311,7 @@
 
         <!-- Type Filter Pills -->
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <button onclick="setTxTypeFilter('all')" data-type-pill="all" class="tx-type-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition whitespace-nowrap">
+          <button onclick="setTxTypeFilter('all')" data-type-pill="all" class="tx-type-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition whitespace-nowrap">
             Semua
           </button>
           <button onclick="setTxTypeFilter('expense')" data-type-pill="expense" class="tx-type-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-[#111827] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-[#1F2937] transition whitespace-nowrap">
@@ -336,7 +325,7 @@
           </button>
         </div>
 
-        <!-- Wallet & Period Filter Row -->
+        <!-- Wallet & Period Filter Dropdowns -->
         <div class="grid grid-cols-2 gap-2">
           <div class="relative">
             <select id="txWalletFilter" onchange="setTxWalletFilter(this.value)" class="w-full appearance-none pl-3 pr-8 py-2 rounded-xl bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:border-indigo-500">
@@ -354,41 +343,41 @@
           </div>
         </div>
 
-        <!-- Filtered Results Summary Strip -->
+        <!-- Filtered Summary Bar -->
         <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3 grid grid-cols-3 gap-2 text-center shadow-sm">
           <div>
-            <p class="text-[10px] text-slate-500 dark:text-slate-400">Total Masuk</p>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">Masuk</p>
             <p id="filterSumIncome" class="text-xs font-bold text-emerald-500 mt-0.5 truncate">Rp 0</p>
           </div>
           <div class="border-x border-slate-200 dark:border-[#1F2937]">
-            <p class="text-[10px] text-slate-500 dark:text-slate-400">Total Keluar</p>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">Keluar</p>
             <p id="filterSumExpense" class="text-xs font-bold text-rose-500 mt-0.5 truncate">Rp 0</p>
           </div>
           <div>
-            <p class="text-[10px] text-slate-500 dark:text-slate-400">Jumlah Data</p>
-            <p id="filterSumCount" class="text-xs font-bold text-indigo-500 mt-0.5">0 Transaksi</p>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400">Total Data</p>
+            <p id="filterSumCount" class="text-xs font-bold text-indigo-500 mt-0.5">0 Item</p>
           </div>
         </div>
 
         <!-- Full Grouped Transactions List -->
         <div id="fullTransactionsList" class="space-y-3">
-          <!-- Injected by JS -->
+          <!-- Rendered by JS -->
         </div>
 
       </section>
 
       <!-- ================================================================= -->
-      <!-- TAB 3: ANALITIK (CHARTS & SMART INSIGHTS)                         -->
+      <!-- TAB 3: ANALITIK (CHART.JS DONUT & 6-MONTH BAR CHART)              -->
       <!-- ================================================================= -->
       <section id="view-analitik" class="hidden space-y-4 animate-fade-in">
 
-        <!-- Header Banner with Month Switcher -->
+        <!-- Month Switcher -->
         <div class="flex items-center justify-between bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl px-3 py-2">
           <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1E293B]">
             <i class="fas fa-chevron-left text-xs"></i>
           </button>
           <div class="text-center">
-            <span class="text-[10px] uppercase tracking-wider text-indigo-500 font-bold block">Laporan Analitik</span>
+            <span class="text-[10px] uppercase tracking-wider text-indigo-500 font-bold block">Analitik Keuangan</span>
             <span id="analyticsMonthLabel" class="text-sm font-bold text-slate-800 dark:text-white">November 2026</span>
           </div>
           <button onclick="changeMonth(1)" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1E293B]">
@@ -396,7 +385,7 @@
           </button>
         </div>
 
-        <!-- Smart Financial Summary Cards -->
+        <!-- Insight Mini Cards -->
         <div class="grid grid-cols-3 gap-2">
           <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3">
             <div class="w-7 h-7 rounded-lg bg-rose-500/15 text-rose-500 flex items-center justify-center mb-1.5">
@@ -423,36 +412,36 @@
           </div>
         </div>
 
-        <!-- Donut Chart: Expense Breakdown by Category -->
+        <!-- Donut Chart: Pengeluaran per Kategori -->
         <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div>
               <h3 class="text-sm font-bold text-slate-900 dark:text-white">Pengeluaran per Kategori</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Distribusi arus keluar bulan ini</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Persentase & nominal bulan terpilih</p>
             </div>
             <span id="donutTotalBadge" class="text-xs font-bold text-rose-500 bg-rose-500/10 px-2.5 py-1 rounded-xl">Rp 0</span>
           </div>
 
-          <div id="donutChartWrapper" class="relative h-52 flex items-center justify-center">
+          <div class="relative h-52 flex items-center justify-center">
             <canvas id="expenseDonutChart"></canvas>
             <div id="donutEmptyState" class="hidden text-center py-8">
               <i class="fas fa-chart-pie text-3xl text-slate-400 mb-2"></i>
-              <p class="text-xs text-slate-500">Belum ada data pengeluaran di bulan ini.</p>
+              <p class="text-xs text-slate-500">Belum ada pengeluaran pada bulan ini.</p>
             </div>
           </div>
 
-          <!-- Custom Interactive Legend -->
+          <!-- Category Legend with Percentage & Nominal -->
           <div id="donutCustomLegend" class="mt-4 space-y-2 border-t border-slate-100 dark:border-[#1F2937] pt-3">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- Bar Chart: Income vs Expense (Last 6 Months) -->
+        <!-- Bar Chart: Pemasukan vs Pengeluaran 6 Bulan Terakhir -->
         <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div>
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Arus Kas 6 Bulan Terakhir</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Perbandingan Pemasukan vs Pengeluaran</p>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Pemasukan vs Pengeluaran</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Tren arus kas 6 bulan terakhir</p>
             </div>
             <div class="flex items-center gap-2 text-[10px] font-semibold">
               <span class="flex items-center gap-1 text-emerald-500"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Masuk</span>
@@ -467,150 +456,137 @@
       </section>
 
       <!-- ================================================================= -->
-      <!-- TAB 4: DOMPET, BUDGET & PENGATURAN                                -->
+      <!-- TAB 4: DOMPET, ANGGARAN, KATEGORI & UTILITAS CLOUDFLARE D1        -->
       <!-- ================================================================= -->
       <section id="view-dompet" class="hidden space-y-4 animate-fade-in">
 
-        <!-- Sub-tabs Navigation -->
+        <!-- Sub-navigation Pills -->
         <div class="grid grid-cols-4 gap-1 bg-slate-200/80 dark:bg-[#111827] p-1 rounded-2xl border border-slate-200 dark:border-[#1F2937]">
           <button onclick="setDompetSubTab('wallets')" data-subtab="wallets" class="dompet-subtab py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white transition">
             Dompet
           </button>
           <button onclick="setDompetSubTab('budgets')" data-subtab="budgets" class="dompet-subtab py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 transition">
-            Budget
+            Anggaran
           </button>
           <button onclick="setDompetSubTab('categories')" data-subtab="categories" class="dompet-subtab py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 transition">
             Kategori
           </button>
-          <button onclick="setDompetSubTab('system')" data-subtab="system" class="dompet-subtab py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 transition">
-            Cloud & Data
+          <button onclick="setDompetSubTab('d1')" data-subtab="d1" class="dompet-subtab py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 transition">
+            D1 & Data
           </button>
         </div>
 
-        <!-- SUB-TAB A: WALLETS CRUD -->
+        <!-- SUB-VIEW 1: KELOLA DOMPET -->
         <div id="subview-wallets" class="space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Daftar Dompet & Akun</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Tambah, ubah saldo awal, atau hapus akun</p>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Daftar Dompet & Rekening</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Bank, E-Wallet, Tunai & Tabungan</p>
             </div>
             <button onclick="openWalletModal()" class="px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition">
               <i class="fas fa-plus"></i> Dompet
             </button>
           </div>
           <div id="manageWalletsList" class="space-y-2.5">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- SUB-TAB B: BUDGETS CRUD -->
+        <!-- SUB-VIEW 2: KELOLA ANGGARAN BULANAN -->
         <div id="subview-budgets" class="hidden space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Anggaran Bulanan (<span id="budgetSubMonthLabel">Nov 2026</span>)</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Batas pengeluaran per kategori</p>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Anggaran (<span id="budgetSubMonthLabel">November 2026</span>)</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Batas pengeluaran bulanan per kategori</p>
             </div>
             <button onclick="openBudgetModal()" class="px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition">
-              <i class="fas fa-plus"></i> Budget
+              <i class="fas fa-plus"></i> Anggaran
             </button>
           </div>
           <div id="manageBudgetsList" class="space-y-2.5">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- SUB-TAB C: CATEGORIES CRUD -->
+        <!-- SUB-VIEW 3: KELOLA KATEGORI -->
         <div id="subview-categories" class="hidden space-y-3">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Kategori Transaksi</h3>
-              <p class="text-[11px] text-slate-500 dark:text-slate-400">Kelola kategori pemasukan & pengeluaran</p>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Kategori Pemasukan & Pengeluaran</h3>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400">Tambah atau hapus kategori sesuai kebutuhan</p>
             </div>
             <button onclick="openCategoryModal()" class="px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition">
               <i class="fas fa-plus"></i> Kategori
             </button>
           </div>
           <div id="manageCategoriesList" class="space-y-2">
-            <!-- Injected by JS -->
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- SUB-TAB D: CLOUD SYNC (SUPABASE), PRD & DATA MANAGEMENT -->
-        <div id="subview-system" class="hidden space-y-3">
+        <!-- SUB-VIEW 4: PANEL STATUS & UTILITAS CLOUDFLARE D1 -->
+        <div id="subview-d1" class="hidden space-y-3">
 
-          <!-- Supabase Full-Stack Cloud Sync Card -->
-          <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 space-y-3">
+          <!-- Cloudflare D1 Status & Sync Panel -->
+          <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 space-y-3 shadow-sm">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center">
-                  <i class="fas fa-cloud text-base"></i>
+                <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center">
+                  <i class="fas fa-database text-base"></i>
                 </div>
                 <div>
-                  <h4 class="text-sm font-bold text-slate-900 dark:text-white">Supabase Cloud Sync</h4>
-                  <p class="text-[11px] text-slate-500 dark:text-slate-400">Sinkronisasi real-time ke PostgreSQL</p>
+                  <h4 class="text-sm font-bold text-slate-900 dark:text-white">Cloudflare D1 SQLite</h4>
+                  <p id="d1PanelSubtitle" class="text-[11px] text-slate-500 dark:text-slate-400">Endpoint: /api/state (Binding: DB)</p>
                 </div>
               </div>
-              <button onclick="openPrdModal('sql')" class="text-[11px] font-semibold text-indigo-500 hover:underline">
-                Skema SQL
-              </button>
+              <span id="d1PanelBadge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-500 border border-amber-500/25">
+                Mode Lokal
+              </span>
             </div>
 
-            <div class="space-y-2">
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Supabase Project URL</label>
-                <input type="url" id="supabaseUrlInput" placeholder="https://xyzcompany.supabase.co" class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
-              </div>
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-300 mb-1">Supabase Anon Public Key</label>
-                <input type="password" id="supabaseKeyInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6..." class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
-              </div>
+            <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-[11px] text-slate-600 dark:text-slate-300 space-y-1">
+              <p><strong>Database Name:</strong> <code>money-flow-db</code></p>
+              <p><strong>Database UUID:</strong> <code class="text-[10px] text-indigo-400">9876104c-2220-47bc-937e-6a9b6104bc81</code></p>
+              <p id="d1LastSyncInfo" class="text-slate-400 pt-1">Status: Menunggu pengujian koneksi...</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              <button onclick="connectAndPushSupabase()" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-cloud-upload-alt"></i> Simpan & Push
+            <div class="grid grid-cols-1 gap-2">
+              <button onclick="testAndSyncD1()" class="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-emerald-600/20 active:scale-98 transition">
+                <i class="fas fa-rotate"></i>
+                <span>Uji Koneksi & Sinkronkan D1</span>
               </button>
-              <button onclick="pullFromSupabase()" class="py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-cloud-download-alt"></i> Pull dari Cloud
+
+              <button onclick="pushLocalDataToD1()" class="w-full py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-indigo-600/20 active:scale-98 transition">
+                <i class="fas fa-cloud-arrow-up"></i>
+                <span>Kirim Data Lokal ke D1</span>
               </button>
             </div>
-            <p id="supabaseSyncNote" class="text-[10px] text-slate-500 dark:text-slate-400">
-              Mode Lokal aktif otomatis menyimpan semua perubahan CRUD di perangkat Anda.
-            </p>
           </div>
 
-          <!-- PRD & Step-by-Step Full-Stack Blueprint Card -->
-          <div class="bg-gradient-to-r from-indigo-600/15 to-emerald-500/15 border border-indigo-500/25 rounded-2xl p-4 flex items-center justify-between">
+          <!-- PRD & Setup Documentation Card -->
+          <div class="bg-gradient-to-r from-indigo-600/15 to-emerald-500/15 border border-indigo-500/25 rounded-2xl p-4 flex items-center justify-between gap-3">
             <div>
-              <h4 class="text-sm font-bold text-slate-900 dark:text-white">PRD & Langkah Projek Full-Stack</h4>
-              <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">Arsitektur, skema DB PostgreSQL & panduan deploy</p>
+              <h4 class="text-sm font-bold text-slate-900 dark:text-white">PRD & Kode Backend D1</h4>
+              <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">Skema SQLite, wrangler.toml & Functions API</p>
             </div>
             <button onclick="openPrdModal('prd')" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold whitespace-nowrap shadow-md">
-              Buka Dokumen
+              Buka Panduan
             </button>
           </div>
 
-          <!-- Export / Backup / Restore / Demo Seeder -->
+          <!-- Export JSON & Reset Data -->
           <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-4 space-y-2.5">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Ekspor, Backup & Data Demo</h4>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Utilitas Backup & Reset</h4>
 
             <div class="grid grid-cols-2 gap-2">
-              <button onclick="exportTransactionsCSV()" class="py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-file-csv text-emerald-500"></i> Ekspor CSV
+              <button onclick="exportBackupJSON()" class="py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="fas fa-file-export text-indigo-500"></i>
+                <span>Export JSON</span>
               </button>
-              <button onclick="exportBackupJSON()" class="py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-download text-indigo-500"></i> Backup JSON
-              </button>
-            </div>
 
-            <div class="grid grid-cols-2 gap-2">
-              <label class="cursor-pointer py-2.5 px-3 rounded-xl bg-slate-100 dark:bg-[#1E293B] hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-upload text-amber-500"></i> Restore JSON
-                <input type="file" accept=".json" onchange="importBackupJSON(event)" class="hidden" />
-              </label>
-
-              <button onclick="confirmSeedDemoData()" class="py-2.5 px-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fas fa-rotate"></i> Reset Demo
+              <button onclick="confirmResetData()" class="py-2.5 px-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/20 text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="fas fa-trash-can-arrow-up"></i>
+                <span>Reset Data</span>
               </button>
             </div>
           </div>
@@ -622,7 +598,7 @@
     </main>
 
     <!-- =================================================================== -->
-    <!-- STICKY BOTTOM NAVIGATION BAR + CENTRAL FLOATING ACTION BUTTON (+)   -->
+    <!-- STICKY BOTTOM NAVIGATION (4 TABS + CENTRAL FLOATING ACTION +)       -->
     <!-- =================================================================== -->
     <nav class="fixed bottom-0 w-full max-w-[480px] z-30 border-t border-slate-200/80 dark:border-[#1F2937] glass-light dark:glass-dark px-2 pt-2 pb-3">
       <div class="grid grid-cols-5 items-center">
@@ -658,11 +634,10 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- SLIDE-UP MODAL 1: ADD / EDIT TRANSACTION (FULL CRUD)                  -->
+  <!-- BOTTOM-SHEET MODAL 1: TAMBAH / EDIT TRANSAKSI                         -->
   <!-- ===================================================================== -->
-  <div id="transactionModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-end sm:items-center justify-center">
+  <div id="transactionModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center">
     <div class="w-full max-w-[480px] bg-white dark:bg-[#111827] border-t sm:border border-slate-200 dark:border-[#1F2937] rounded-t-3xl sm:rounded-3xl p-5 max-h-[92vh] overflow-y-auto animate-slide-up shadow-2xl">
-      <!-- Drawer Handle -->
       <div class="w-10 h-1 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-3 sm:hidden"></div>
 
       <div class="flex items-center justify-between mb-4">
@@ -675,7 +650,7 @@
       <form id="transactionForm" onsubmit="saveTransaction(event)" class="space-y-4">
         <input type="hidden" id="txIdInput" />
 
-        <!-- Transaction Type Switcher -->
+        <!-- Tab Tipe Transaksi -->
         <div class="grid grid-cols-3 gap-1.5 bg-slate-100 dark:bg-[#0B1120] p-1 rounded-2xl border border-slate-200 dark:border-[#1F2937]">
           <button type="button" onclick="setFormTxType('expense')" data-form-type="expense" class="form-type-btn py-2 rounded-xl text-xs font-bold bg-rose-500 text-white transition">
             Pengeluaran
@@ -688,7 +663,7 @@
           </button>
         </div>
 
-        <!-- Amount Input with Live Rupiah Formatting & Quick-Add Chips -->
+        <!-- Input Nominal Rupiah Terformat Otomatis + Tombol Cepat -->
         <div class="bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3.5">
           <label class="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">Nominal Transaksi</label>
           <div class="flex items-center gap-2">
@@ -702,30 +677,30 @@
               required
               class="w-full bg-transparent text-2xl font-extrabold text-slate-900 dark:text-white focus:outline-none"
             />
-            <button type="button" onclick="resetAmountInput()" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-200 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300">
+            <button type="button" onclick="resetAmountInput()" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-200 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300">
               Reset
             </button>
           </div>
 
-          <!-- Quick-add Chips -->
+          <!-- Tombol Cepat Nominal -->
           <div class="flex items-center gap-1.5 mt-3 overflow-x-auto no-scrollbar">
-            <button type="button" onclick="quickAddAmount(10000)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+10rb</button>
-            <button type="button" onclick="quickAddAmount(50000)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+50rb</button>
-            <button type="button" onclick="quickAddAmount(100000)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+100rb</button>
-            <button type="button" onclick="quickAddAmount(500000)" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+500rb</button>
+            <button type="button" onclick="quickAddAmount(10000)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+10rb</button>
+            <button type="button" onclick="quickAddAmount(50000)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+50rb</button>
+            <button type="button" onclick="quickAddAmount(100000)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+100rb</button>
+            <button type="button" onclick="quickAddAmount(500000)" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 whitespace-nowrap">+500rb</button>
           </div>
         </div>
 
-        <!-- Category Selector Grid (Hidden when Transfer) -->
+        <!-- Grid Pemilih Kategori Berikon -->
         <div id="txCategorySection">
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">Pilih Kategori</label>
-          <div id="txCategoryGrid" class="grid grid-cols-4 gap-2 max-h-44 overflow-y-auto pr-1">
-            <!-- Injected by JS -->
+          <div id="txCategoryGrid" class="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-44 overflow-y-auto pr-1">
+            <!-- Rendered by JS -->
           </div>
         </div>
 
-        <!-- Wallet Selectors -->
-        <div id="txWalletsContainer" class="grid grid-cols-1 gap-3">
+        <!-- Pemilih Dompet Asal & Tujuan -->
+        <div class="space-y-3">
           <div>
             <label id="txSourceWalletLabel" class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Dompet</label>
             <select id="txWalletSelect" required class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
@@ -734,9 +709,9 @@
 
           <div id="txDestWalletWrapper" class="hidden">
             <div class="flex items-center justify-between mb-1.5">
-              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Ke Dompet Tujuan</label>
-              <button type="button" onclick="swapTransferWallets()" class="text-[11px] font-semibold text-indigo-500 hover:underline">
-                <i class="fas fa-right-left mr-1"></i>Tukar Dompet
+              <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">Dompet Tujuan Transfer</label>
+              <button type="button" onclick="swapTransferWallets()" class="text-[11px] font-bold text-indigo-500 hover:underline">
+                <i class="fas fa-right-left mr-1"></i>Tukar
               </button>
             </div>
             <select id="txToWalletSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
@@ -744,24 +719,23 @@
           </div>
         </div>
 
-        <!-- Date & Note Inputs -->
+        <!-- Tanggal & Catatan -->
         <div class="grid grid-cols-2 gap-2.5">
           <div>
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Tanggal</label>
             <input type="date" id="txDateInput" required class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Catatan / Keterangan</label>
-            <input type="text" id="txNoteInput" placeholder="Contoh: Makan siang / Order #12" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Catatan</label>
+            <input type="text" id="txNoteInput" placeholder="Keterangan singkat..." class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
           </div>
         </div>
 
-        <!-- Inline Validation Error -->
         <p id="txFormError" class="hidden text-xs font-semibold text-rose-500 bg-rose-500/10 border border-rose-500/20 rounded-xl px-3 py-2"></p>
 
-        <!-- Action Buttons: Delete (when editing) + Save -->
+        <!-- Tombol Simpan & Hapus (saat mode edit) -->
         <div class="flex items-center gap-2.5 pt-1">
-          <button type="button" id="deleteTxModalBtn" onclick="confirmDeleteCurrentTx()" class="hidden py-3 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-500 font-bold text-xs transition">
+          <button type="button" id="deleteTxModalBtn" onclick="confirmDeleteCurrentTx()" class="hidden py-3 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-500 font-bold text-xs transition" title="Hapus Transaksi">
             <i class="fas fa-trash-alt"></i>
           </button>
           <button type="submit" class="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold text-sm shadow-lg shadow-indigo-600/25 active:scale-98 transition">
@@ -773,12 +747,12 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 2: WALLET CRUD MODAL                                            -->
+  <!-- MODAL 2: TAMBAH / EDIT DOMPET                                         -->
   <!-- ===================================================================== -->
-  <div id="walletModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-end sm:items-center justify-center">
+  <div id="walletModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center">
     <div class="w-full max-w-[480px] bg-white dark:bg-[#111827] border-t sm:border border-slate-200 dark:border-[#1F2937] rounded-t-3xl sm:rounded-3xl p-5 animate-slide-up shadow-2xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 id="walletModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Tambah Dompet</h3>
+        <h3 id="walletModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Tambah Dompet Baru</h3>
         <button onclick="closeWalletModal()" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-500 flex items-center justify-center">
           <i class="fas fa-times text-sm"></i>
         </button>
@@ -788,18 +762,18 @@
         <input type="hidden" id="walletIdInput" />
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nama Dompet / Rekening</label>
-          <input type="text" id="walletNameInput" required placeholder="Contoh: Bank Mandiri, OVO, Kas Toko" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nama Dompet / Akun</label>
+          <input type="text" id="walletNameInput" required placeholder="Contoh: Bank BCA, GoPay, Kas Klinik" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
         <div class="grid grid-cols-2 gap-2.5">
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipe Akun</label>
-            <select id="walletTypeInput" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Jenis Dompet</label>
+            <select id="walletTypeInput" onchange="syncWalletTypeDefaults(this.value)" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
               <option value="Bank">Bank</option>
               <option value="E-Wallet">E-Wallet</option>
               <option value="Tunai">Tunai</option>
-              <option value="Investasi">Investasi / Tabungan</option>
+              <option value="Tabungan">Tabungan</option>
             </select>
           </div>
 
@@ -809,15 +783,29 @@
           </div>
         </div>
 
-        <div>
-          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">Warna Kartu</label>
-          <div id="walletColorPicker" class="flex items-center gap-2.5">
-            <button type="button" data-color="indigo" onclick="selectWalletColor('indigo')" class="w-8 h-8 rounded-full bg-indigo-600 ring-2 ring-offset-2 ring-indigo-500 dark:ring-offset-[#111827]"></button>
-            <button type="button" data-color="emerald" onclick="selectWalletColor('emerald')" class="w-8 h-8 rounded-full bg-emerald-600"></button>
-            <button type="button" data-color="sky" onclick="selectWalletColor('sky')" class="w-8 h-8 rounded-full bg-sky-600"></button>
-            <button type="button" data-color="amber" onclick="selectWalletColor('amber')" class="w-8 h-8 rounded-full bg-amber-600"></button>
-            <button type="button" data-color="rose" onclick="selectWalletColor('rose')" class="w-8 h-8 rounded-full bg-rose-600"></button>
-            <button type="button" data-color="purple" onclick="selectWalletColor('purple')" class="w-8 h-8 rounded-full bg-purple-600"></button>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Ikon Dompet</label>
+            <select id="walletIconInput" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500">
+              <option value="fa-building-columns">Bank / Gedung</option>
+              <option value="fa-mobile-screen-button">HP / E-Wallet</option>
+              <option value="fa-money-bill-wave">Uang Tunai</option>
+              <option value="fa-piggy-bank">Celengan / Tabungan</option>
+              <option value="fa-vault">Brankas Usaha</option>
+              <option value="fa-credit-card">Kartu Debit/Kredit</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Warna Kartu</label>
+            <div id="walletColorPicker" class="flex items-center gap-1.5 pt-1">
+              <button type="button" data-color="indigo" onclick="selectWalletColor('indigo')" class="w-7 h-7 rounded-full bg-indigo-600 ring-2 ring-offset-2 ring-indigo-500 dark:ring-offset-[#111827]"></button>
+              <button type="button" data-color="emerald" onclick="selectWalletColor('emerald')" class="w-7 h-7 rounded-full bg-emerald-600"></button>
+              <button type="button" data-color="sky" onclick="selectWalletColor('sky')" class="w-7 h-7 rounded-full bg-sky-600"></button>
+              <button type="button" data-color="amber" onclick="selectWalletColor('amber')" class="w-7 h-7 rounded-full bg-amber-600"></button>
+              <button type="button" data-color="rose" onclick="selectWalletColor('rose')" class="w-7 h-7 rounded-full bg-rose-600"></button>
+              <button type="button" data-color="purple" onclick="selectWalletColor('purple')" class="w-7 h-7 rounded-full bg-purple-600"></button>
+            </div>
           </div>
         </div>
 
@@ -829,12 +817,12 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 3: BUDGET CRUD MODAL                                            -->
+  <!-- MODAL 3: KELOLA ANGGARAN BULANAN                                      -->
   <!-- ===================================================================== -->
-  <div id="budgetModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-end sm:items-center justify-center">
+  <div id="budgetModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center">
     <div class="w-full max-w-[480px] bg-white dark:bg-[#111827] border-t sm:border border-slate-200 dark:border-[#1F2937] rounded-t-3xl sm:rounded-3xl p-5 animate-slide-up shadow-2xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 id="budgetModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Atur Anggaran Kategori</h3>
+        <h3 id="budgetModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Atur Anggaran Bulanan</h3>
         <button onclick="closeBudgetModal()" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-500 flex items-center justify-center">
           <i class="fas fa-times text-sm"></i>
         </button>
@@ -850,7 +838,7 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Batas Anggaran per Bulan (Rp)</label>
+          <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Limit Anggaran Bulan Ini (Rp)</label>
           <input type="text" inputmode="numeric" id="budgetLimitInput" oninput="formatAmountInput(this)" placeholder="1.500.000" required class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-indigo-500" />
         </div>
 
@@ -862,9 +850,9 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 4: CATEGORY CRUD MODAL                                          -->
+  <!-- MODAL 4: TAMBAH KATEGORI BARU                                         -->
   <!-- ===================================================================== -->
-  <div id="categoryModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-end sm:items-center justify-center">
+  <div id="categoryModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center">
     <div class="w-full max-w-[480px] bg-white dark:bg-[#111827] border-t sm:border border-slate-200 dark:border-[#1F2937] rounded-t-3xl sm:rounded-3xl p-5 animate-slide-up shadow-2xl">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Tambah Kategori Baru</h3>
@@ -876,34 +864,36 @@
       <form onsubmit="saveCategory(event)" class="space-y-3.5">
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Jenis</label>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Tipe Kategori</label>
             <select id="catTypeInput" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white">
               <option value="expense">Pengeluaran</option>
               <option value="income">Pemasukan</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Warna Badge</label>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Warna Ikon</label>
             <input type="color" id="catColorInput" value="#6366F1" class="w-full h-[38px] p-1 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937]" />
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Nama Kategori</label>
-          <input type="text" id="catNameInput" required placeholder="Contoh: Bahan Baku, Pendidikan, Donasi" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white" />
+          <input type="text" id="catNameInput" required placeholder="Contoh: Bahan Baku Usaha, Pendidikan, Sedekah" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white" />
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Pilih Ikon</label>
           <select id="catIconInput" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] text-xs font-semibold text-slate-900 dark:text-white">
-            <option value="fa-tag">Label / Umum</option>
+            <option value="fa-tag">Label Umum</option>
             <option value="fa-utensils">Makanan & Minuman</option>
-            <option value="fa-store">Toko / Usaha</option>
-            <option value="fa-box-open">Stok & Logistik</option>
-            <option value="fa-graduation-cap">Pendidikan</option>
-            <option value="fa-hand-holding-heart">Sedekah / Donasi</option>
-            <option value="fa-wifi">Internet & Pulsa</option>
-            <option value="fa-screwdriver-wrench">Perawatan & Servis</option>
+            <option value="fa-car">Transportasi</option>
+            <option value="fa-bag-shopping">Belanja</option>
+            <option value="fa-file-invoice-dollar">Tagihan & Utilitas</option>
+            <option value="fa-heart-pulse">Kesehatan</option>
+            <option value="fa-film">Hiburan</option>
+            <option value="fa-briefcase">Gaji / Pekerjaan</option>
+            <option value="fa-store">Bisnis / Klinik</option>
+            <option value="fa-gift">Bonus / Hadiah</option>
           </select>
         </div>
 
@@ -915,149 +905,289 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- MODAL 5: PRD, SQL SCHEMA & STEP-BY-STEP FULL-STACK GUIDE MODAL        -->
-  <!-- ===================================================================== -->
+  <!-- MODAL 5: DOKUMENTASI PRD & PANDUAN CLOUDFLARE D1                      -->
+  <!-- =====================================================================
   <div id="prdModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-end sm:items-center justify-center">
     <div class="w-full max-w-[480px] bg-white dark:bg-[#111827] border-t sm:border border-slate-200 dark:border-[#1F2937] rounded-t-3xl sm:rounded-3xl p-5 max-h-[90vh] flex flex-col animate-slide-up shadow-2xl">
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-[#1F2937]">
         <div>
-          <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-500">Blueprint Arsitektur</span>
-          <h3 class="text-base font-extrabold text-slate-900 dark:text-white">PRD & Panduan Full-Stack</h3>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-500">Arsitektur Full-Stack</span>
+          <h3 class="text-base font-extrabold text-slate-900 dark:text-white">PRD & Panduan Cloudflare D1</h3>
         </div>
         <button onclick="closePrdModal()" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-500 flex items-center justify-center">
           <i class="fas fa-times text-sm"></i>
         </button>
       </div>
 
-      <!-- Modal Tabs -->
+      <!-- Sub-tabs inside PRD Modal -->
+  <!-- ====================================================================
       <div class="grid grid-cols-3 gap-1 bg-slate-100 dark:bg-[#0B1120] p-1 rounded-xl my-3 text-xs font-bold">
         <button onclick="switchPrdTab('prd')" data-prd-tab="prd" class="prd-tab-btn py-1.5 rounded-lg bg-indigo-600 text-white">1. PRD Produk</button>
-        <button onclick="switchPrdTab('sql')" data-prd-tab="sql" class="prd-tab-btn py-1.5 rounded-lg text-slate-500">2. SQL Supabase</button>
-        <button onclick="switchPrdTab('steps')" data-prd-tab="steps" class="prd-tab-btn py-1.5 rounded-lg text-slate-500">3. Langkah Build</button>
+        <button onclick="switchPrdTab('sql')" data-prd-tab="sql" class="prd-tab-btn py-1.5 rounded-lg text-slate-500">2. SQLite D1</button>
+        <button onclick="switchPrdTab('worker')" data-prd-tab="worker" class="prd-tab-btn py-1.5 rounded-xl text-slate-500">3. Wrangler & API</button>
       </div>
+      
+         ===================================================================== -->
 
-      <!-- Modal Scrollable Content -->
+      <!-- Scrollable Modal Body -->
+      
+        <!-- ====================================================================
       <div class="flex-1 overflow-y-auto space-y-3 text-xs text-slate-700 dark:text-slate-300 pr-1">
+      
+  ==================================================================== -->
+      
+      
         <!-- Tab 1: PRD -->
-        <div id="prdTab-prd" class="space-y-3">
+  <!-- =====================================================================
+        
+        <div id="prdTab-prd" class="space-y-2.5">
           <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937]">
-            <h4 class="font-bold text-slate-900 dark:text-white mb-1">Ringkasan Produk (Money Flow)</h4>
-            <p class="leading-relaxed">Aplikasi web mobile-first untuk pencatatan arus kas pribadi & UMKM secara real-time. Mendukung multi-dompet (Tunai, Bank, E-Wallet), transfer antar akun tanpa distorsi omzet, penganggaran bulanan, dan analitik visual.</p>
+            <h4 class="font-bold text-slate-900 dark:text-white mb-1">1. Visi & Tujuan Produk (Money Flow)</h4>
+            <p class="leading-relaxed">Money Flow adalah aplikasi web pencatatan arus kas pribadi & UMKM berbasis <strong>Cloudflare Pages + Cloudflare D1 (SQLite Edge Database)</strong> dengan ketahanan offline penuh via <code>localStorage</code>.</p>
           </div>
           <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] space-y-1.5">
-            <h4 class="font-bold text-slate-900 dark:text-white">Spesifikasi Fitur CRUD</h4>
+            <h4 class="font-bold text-slate-900 dark:text-white">2. Spesifikasi Fungsional CRUD</h4>
             <ul class="list-disc pl-4 space-y-1">
-              <li><strong>Transaksi CRUD:</strong> Create, Read, Update, Delete untuk Pengeluaran, Pemasukan, dan Transfer antar dompet dengan kalkulasi saldo otomatis.</li>
-              <li><strong>Dompet CRUD:</strong> Manajemen akun kas, bank, dan e-wallet lengkap dengan saldo awal & warna identitas.</li>
-              <li><strong>Anggaran (Budget) CRUD:</strong> Penetapan limit belanja per kategori dengan indikator peringatan (80% & 100%).</li>
-              <li><strong>Kategori CRUD:</strong> Kustomisasi kategori usaha & rumah tangga.</li>
-              <li><strong>Hybrid Persistence:</strong> Offline-first via <code>localStorage</code> + Sinkronisasi Cloud ke PostgreSQL via <strong>Supabase JS SDK</strong>.</li>
+              <li><strong>Transaksi CRUD:</strong> Pencatatan Pemasukan, Pengeluaran, dan Transfer Antar Dompet dengan kalkulasi saldo real-time tanpa menghitung transfer sebagai omzet.</li>
+              <li><strong>Multi-Dompet CRUD:</strong> Kelola akun Bank, E-Wallet, Tunai, dan Tabungan lengkap dengan saldo awal & ikon.</li>
+              <li><strong>Anggaran Bulanan CRUD:</strong> Limit belanja per kategori per bulan (<code>YYYY-MM</code>) dengan indikator hijau (&lt;75%), kuning (75-99%), dan merah (&ge;100%).</li>
+              <li><strong>Hybrid Auto-Sync:</strong> Memanggil <code>GET /api/state</code> saat dibuka dan otomatis melakukan <em>seeding</em> kategori & dompet awal jika D1 masih kosong.</li>
             </ul>
           </div>
+          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] space-y-1">
+            <h4 class="font-bold text-slate-900 dark:text-white">3. Langkah Setup Deployment Cloudflare</h4>
+            <ol class="list-decimal pl-4 space-y-1">
+              <li>Jalankan skema SQL pada tab <strong>2. SQLite D1</strong> di D1 Studio database <code>money-flow-db</code>.</li>
+              <li>Simpan <code>index.html</code>, <code>wrangler.toml</code>, dan <code>functions/api/[[route]].js</code> ke GitHub.</li>
+              <li>Pastikan binding D1 bernama <code>DB</code> aktif di Cloudflare Pages Settings &rarr; Bindings.</li>
+            </ol>
+          </div>
         </div>
+        
+           ===================================================================== -->
 
-        <!-- Tab 2: SQL Schema -->
-        <div id="prdTab-sql" class="hidden space-y-2.5">
+        <!-- Tab 2: SQLite D1 Schema -->
+        
+          <!-- =====================================================================
+        <div id="prdTab-sql" class="hidden space-y-2">
           <div class="flex items-center justify-between">
-            <p class="text-[11px] text-slate-500">Salin & jalankan di <strong>Supabase SQL Editor</strong>:</p>
-            <button onclick="copySqlSchema()" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold">
+            <span class="text-[11px] font-semibold text-slate-500">Skema SQLite Cloudflare D1:</span>
+            <button onclick="copyCodeBlock('codeSqlD1')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold">
               <i class="fas fa-copy mr-1"></i> Salin SQL
             </button>
           </div>
-          <pre id="supabaseSqlCode" class="p-3 rounded-xl bg-[#0B1120] text-emerald-300 border border-[#1F2937] text-[10px] overflow-x-auto leading-relaxed font-mono">-- 1. Tabel Dompet (Wallets)
-CREATE TABLE IF NOT EXISTS wallets (
+          <pre id="codeSqlD1" class="p-3 rounded-xl bg-[#0B1120] text-emerald-300 border border-[#1F2937] text-[10px] overflow-x-auto leading-relaxed font-mono">CREATE TABLE IF NOT EXISTS wallets (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   type TEXT NOT NULL,
-  initial_balance BIGINT DEFAULT 0,
+  initial_balance INTEGER DEFAULT 0,
   color TEXT DEFAULT 'indigo',
   icon TEXT DEFAULT 'fa-wallet',
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
--- 2. Tabel Kategori (Categories)
 CREATE TABLE IF NOT EXISTS categories (
   id TEXT PRIMARY KEY,
   name TEXT NOT NULL,
-  type TEXT CHECK (type IN ('income', 'expense')),
+  type TEXT NOT NULL CHECK (type IN ('income', 'expense')),
   icon TEXT NOT NULL,
-  color TEXT NOT NULL
+  color TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
--- 3. Tabel Anggaran (Budgets)
 CREATE TABLE IF NOT EXISTS budgets (
   id TEXT PRIMARY KEY,
-  category_id TEXT REFERENCES categories(id) ON DELETE CASCADE,
-  limit_amount BIGINT NOT NULL
+  category_id TEXT NOT NULL,
+  month TEXT NOT NULL,
+  limit_amount INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(category_id, month),
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
--- 4. Tabel Transaksi (Transactions)
 CREATE TABLE IF NOT EXISTS transactions (
   id TEXT PRIMARY KEY,
-  type TEXT CHECK (type IN ('income', 'expense', 'transfer')),
-  amount BIGINT NOT NULL,
+  type TEXT NOT NULL CHECK (type IN ('income', 'expense', 'transfer')),
+  amount INTEGER NOT NULL,
   category_id TEXT,
-  wallet_id TEXT REFERENCES wallets(id) ON DELETE CASCADE,
+  wallet_id TEXT NOT NULL,
   to_wallet_id TEXT,
-  date DATE NOT NULL,
+  date TEXT NOT NULL,
   note TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (wallet_id) REFERENCES wallets(id) ON DELETE CASCADE
 );</pre>
         </div>
+        
+          ==================================================================== -->
 
-        <!-- Tab 3: Step-by-Step Guide -->
-        <div id="prdTab-steps" class="hidden space-y-2.5">
-          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] space-y-2">
-            <h4 class="font-bold text-indigo-500">Langkah 1 — Setup Backend PostgreSQL (Supabase)</h4>
-            <p>Buat proyek gratis di <strong>supabase.com</strong>, buka menu <em>SQL Editor</em>, lalu jalankan skema SQL dari tab <strong>2. SQL Supabase</strong>.</p>
+        <!-- Tab 3: wrangler.toml & functions/api/[[route]].js -->
+          <!-- =====================================================================
+        <div id="prdTab-worker" class="hidden space-y-3">
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-indigo-400">wrangler.toml (Perhatikan huruf kecil pada key)</span>
+              <button onclick="copyCodeBlock('codeWranglerToml')" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white text-[11px] font-bold">
+                <i class="fas fa-copy mr-1"></i> Salin
+              </button>
+            </div>
+            <pre id="codeWranglerToml" class="p-3 rounded-xl bg-[#0B1120] text-indigo-200 border border-[#1F2937] text-[10px] overflow-x-auto font-mono">name = "moneyflow8"
+compatibility_date = "2026-11-14"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "money-flow-db"
+database_id = "9876104c-2220-47bc-937e-6a9b6104bc81"</pre>
           </div>
-          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] space-y-2">
-            <h4 class="font-bold text-emerald-500">Langkah 2 — Hubungkan Frontend ke Cloud</h4>
-            <p>Masuk ke tab <strong>Dompet &rarr; Cloud &amp; Data</strong>, tempel <em>Project URL</em> dan <em>Anon Public Key</em>, lalu klik <strong>Simpan &amp; Push</strong> untuk mengunggah data transaksi.</p>
-          </div>
-          <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#0B1120] border border-slate-200 dark:border-[#1F2937] space-y-2">
-            <h4 class="font-bold text-amber-500">Langkah 3 — Hosting &amp; PWA Mobile</h4>
-            <p>Deploy file tunggal ini ke <strong>Vercel</strong>, <strong>Netlify</strong>, atau <strong>Cloudflare Pages</strong>, lalu buka di browser ponsel dan pilih <em>Add to Home Screen</em> untuk pengalaman aplikasi mobile native.</p>
+
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-bold text-emerald-400">functions/api/[[route]].js</span>
+              <button onclick="copyCodeBlock('codeWorkerJs')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[11px] font-bold">
+                <i class="fas fa-copy mr-1"></i> Salin
+              </button>
+            </div>
+            <pre id="codeWorkerJs" class="p-3 rounded-xl bg-[#0B1120] text-emerald-300 border border-[#1F2937] text-[10px] overflow-x-auto font-mono">export async function onRequest(context) {
+  const { request, env } = context;
+  const url = new URL(request.url);
+  const path = url.pathname.replace(/^\/api\/?/, '');
+  const method = request.method;
+
+  const json = (data, status = 200) =>
+    new Response(JSON.stringify(data), {
+      status,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
+
+  if (method === 'OPTIONS') return json({ ok: true });
+
+  try {
+    if (path === 'state' && method === 'GET') {
+      const [wallets, categories, budgets, transactions] = await Promise.all([
+        env.DB.prepare('SELECT * FROM wallets ORDER BY created_at ASC').all(),
+        env.DB.prepare('SELECT * FROM categories ORDER BY created_at ASC').all(),
+        env.DB.prepare('SELECT * FROM budgets').all(),
+        env.DB.prepare('SELECT * FROM transactions ORDER BY date DESC, created_at DESC').all(),
+      ]);
+      return json({
+        wallets: wallets.results,
+        categories: categories.results,
+        budgets: budgets.results,
+        transactions: transactions.results,
+      });
+    }
+
+    if (path === 'transactions' && method === 'POST') {
+      const b = await request.json();
+      await env.DB.prepare(
+        `INSERT INTO transactions (id, type, amount, category_id, wallet_id, to_wallet_id, date, note)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+      ).bind(b.id, b.type, b.amount, b.category_id || null, b.wallet_id, b.to_wallet_id || null, b.date, b.note || '').run();
+      return json({ success: true, id: b.id }, 201);
+    }
+
+    if (path.startsWith('transactions/') && method === 'PUT') {
+      const id = path.split('/')[1];
+      const b = await request.json();
+      await env.DB.prepare(
+        `UPDATE transactions SET type=?, amount=?, category_id=?, wallet_id=?, to_wallet_id=?, date=?, note=? WHERE id=?`
+      ).bind(b.type, b.amount, b.category_id || null, b.wallet_id, b.to_wallet_id || null, b.date, b.note || '', id).run();
+      return json({ success: true });
+    }
+
+    if (path.startsWith('transactions/') && method === 'DELETE') {
+      const id = path.split('/')[1];
+      await env.DB.prepare('DELETE FROM transactions WHERE id = ?').bind(id).run();
+      return json({ success: true });
+    }
+
+    if (path === 'wallets' && method === 'POST') {
+      const b = await request.json();
+      await env.DB.prepare(
+        `INSERT OR REPLACE INTO wallets (id, name, type, initial_balance, color, icon) VALUES (?, ?, ?, ?, ?, ?)`
+      ).bind(b.id, b.name, b.type, b.initial_balance || 0, b.color || 'indigo', b.icon || 'fa-wallet').run();
+      return json({ success: true });
+    }
+
+    if (path.startsWith('wallets/') && method === 'DELETE') {
+      const id = path.split('/')[1];
+      await env.DB.prepare('DELETE FROM wallets WHERE id = ?').bind(id).run();
+      return json({ success: true });
+    }
+
+    if (path === 'budgets' && method === 'POST') {
+      const b = await request.json();
+      await env.DB.prepare(
+        `INSERT INTO budgets (id, category_id, month, limit_amount) VALUES (?, ?, ?, ?)
+         ON CONFLICT(category_id, month) DO UPDATE SET limit_amount = excluded.limit_amount`
+      ).bind(b.id, b.category_id, b.month, b.limit_amount).run();
+      return json({ success: true });
+    }
+
+    if (path === 'categories' && method === 'POST') {
+      const b = await request.json();
+      await env.DB.prepare(
+        `INSERT OR REPLACE INTO categories (id, name, type, icon, color) VALUES (?, ?, ?, ?, ?)`
+      ).bind(b.id, b.name, b.type, b.icon, b.color).run();
+      return json({ success: true });
+    }
+
+    return json({ error: 'Endpoint tidak ditemukan' }, 404);
+  } catch (err) {
+    return json({ error: err.message }, 500);
+  }
+}</pre>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
+    ===================================================================== -->
+  
+  
+  
 
   <!-- ===================================================================== -->
-  <!-- CUSTOM CONFIRMATION DIALOG MODAL (NO BROWSER confirm() / alert())     -->
+  <!-- CUSTOM CONFIRMATION DIALOG MODAL                                      -->
   <!-- ===================================================================== -->
   <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="w-full max-w-[360px] bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-3xl p-5 animate-fade-in shadow-2xl">
       <div class="w-11 h-11 rounded-2xl bg-rose-500/15 text-rose-500 flex items-center justify-center mb-3">
         <i class="fas fa-triangle-exclamation text-lg"></i>
       </div>
-      <h4 id="confirmModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Konfirmasi Hapus</h4>
-      <p id="confirmModalMessage" class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">Apakah Anda yakin ingin melanjutkan tindakan ini?</p>
+      <h4 id="confirmModalTitle" class="text-base font-extrabold text-slate-900 dark:text-white">Konfirmasi</h4>
+      <p id="confirmModalMessage" class="text-xs text-slate-600 dark:text-slate-300 mt-1.5 leading-relaxed">Lanjutkan tindakan ini?</p>
       <div class="grid grid-cols-2 gap-2.5 mt-5">
         <button onclick="closeConfirmModal()" class="py-2.5 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-700 dark:text-slate-200 text-xs font-bold">
           Batal
         </button>
         <button id="confirmModalActionBtn" class="py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold">
-          Ya, Hapus
+          Ya, Lanjutkan
         </button>
       </div>
     </div>
   </div>
 
   <!-- ===================================================================== -->
-  <!-- FLOATING TOAST NOTIFICATION                                           -->
+  <!-- FLOATING TOAST CONTAINER                                              -->
   <!-- ===================================================================== -->
   <div id="toastContainer" class="fixed top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none flex flex-col items-center gap-2 w-full max-w-[440px] px-4"></div>
 
   <!-- ===================================================================== -->
-  <!-- APPLICATION JAVASCRIPT LOGIC (FULL CRUD + ANALYTICS + CLOUD SYNC)     -->
+  <!-- APPLICATION JAVASCRIPT (CLOUDFLARE D1 API + LOCALSTORAGE FALLBACK)    -->
   <!-- ===================================================================== -->
   <script>
     // =========================================================================
-    // 1. CONSTANTS, DESIGN TOKENS & DEFAULT SEED DATA (NOVEMBER 2026)
+    // 1. CONSTANTS & DEFAULT INDONESIAN SEED DATA
     // =========================================================================
-    const STORAGE_KEY = 'moneyflow_fullstack_v1';
+    const STORAGE_KEY = 'moneyflow_d1_cache_v1';
 
     const WALLET_GRADIENTS = {
       indigo: 'from-indigo-600 to-indigo-800',
@@ -1072,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS transactions (
       Bank: 'fa-building-columns',
       'E-Wallet': 'fa-mobile-screen-button',
       Tunai: 'fa-money-bill-wave',
-      Investasi: 'fa-piggy-bank'
+      Tabungan: 'fa-piggy-bank'
     };
 
     const MONTH_NAMES_ID = [
@@ -1080,83 +1210,70 @@ CREATE TABLE IF NOT EXISTS transactions (
       'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
     ];
 
-    // Default Categories (Personal & Small Business)
+    // Kategori Default Indonesia sesuai spesifikasi PRD
     const DEFAULT_CATEGORIES = [
-      // Expense Categories
-      { id: 'cat_food', name: 'Makanan & Minuman', type: 'expense', icon: 'fa-utensils', color: '#F43F5E' },
-      { id: 'cat_trans', name: 'Transportasi', type: 'expense', icon: 'fa-car', color: '#F59E0B' },
-      { id: 'cat_shop', name: 'Belanja', type: 'expense', icon: 'fa-bag-shopping', color: '#EC4899' },
-      { id: 'cat_bill', name: 'Tagihan', type: 'expense', icon: 'fa-file-invoice-dollar', color: '#8B5CF6' },
-      { id: 'cat_health', name: 'Kesehatan', type: 'expense', icon: 'fa-heart-pulse', color: '#10B981' },
-      { id: 'cat_ent', name: 'Hiburan', type: 'expense', icon: 'fa-film', color: '#6366F1' },
-      { id: 'cat_biz_exp', name: 'Operasional Usaha', type: 'expense', icon: 'fa-store', color: '#06B6D4' },
-      { id: 'cat_other_exp', name: 'Lainnya', type: 'expense', icon: 'fa-ellipsis', color: '#64748B' },
       // Income Categories
-      { id: 'cat_salary', name: 'Gaji', type: 'income', icon: 'fa-briefcase', color: '#10B981' },
-      { id: 'cat_biz_inc', name: 'Penjualan/Usaha', type: 'income', icon: 'fa-shop', color: '#059669' },
-      { id: 'cat_invest', name: 'Investasi', type: 'income', icon: 'fa-chart-line', color: '#3B82F6' },
-      { id: 'cat_other_inc', name: 'Lainnya', type: 'income', icon: 'fa-coins', color: '#14B8A6' }
+      { id: 'cat_gaji', name: 'Gaji', type: 'income', icon: 'fa-briefcase', color: '#10B981' },
+      { id: 'cat_bisnis', name: 'Bisnis/Klinik', type: 'income', icon: 'fa-store', color: '#059669' },
+      { id: 'cat_bonus', name: 'Bonus', type: 'income', icon: 'fa-gift', color: '#3B82F6' },
+      // Expense Categories
+      { id: 'cat_makanan', name: 'Makanan & Minuman', type: 'expense', icon: 'fa-utensils', color: '#F43F5E' },
+      { id: 'cat_transport', name: 'Transportasi', type: 'expense', icon: 'fa-car', color: '#F59E0B' },
+      { id: 'cat_belanja', name: 'Belanja', type: 'expense', icon: 'fa-bag-shopping', color: '#EC4899' },
+      { id: 'cat_tagihan', name: 'Tagihan & Utilitas', type: 'expense', icon: 'fa-file-invoice-dollar', color: '#8B5CF6' },
+      { id: 'cat_kesehatan', name: 'Kesehatan', type: 'expense', icon: 'fa-heart-pulse', color: '#14B8A6' },
+      { id: 'cat_hiburan', name: 'Hiburan', type: 'expense', icon: 'fa-film', color: '#6366F1' }
     ];
 
-    // Default Wallets
+    // Dompet Awal Default (Bank BCA, GoPay, Tunai)
     const DEFAULT_WALLETS = [
-      { id: 'wal_bca', name: 'Bank BCA', type: 'Bank', initialBalance: 14500000, color: 'indigo', icon: 'fa-building-columns' },
-      { id: 'wal_gopay', name: 'GoPay / E-Wallet', type: 'E-Wallet', initialBalance: 1350000, color: 'sky', icon: 'fa-mobile-screen-button' },
-      { id: 'wal_cash', name: 'Tunai', type: 'Tunai', initialBalance: 900000, color: 'emerald', icon: 'fa-money-bill-wave' },
-      { id: 'wal_save', name: 'Tabungan', type: 'Investasi', initialBalance: 25000000, color: 'purple', icon: 'fa-piggy-bank' }
+      { id: 'wal_bca', name: 'Bank BCA', type: 'Bank', initial_balance: 12500000, color: 'indigo', icon: 'fa-building-columns' },
+      { id: 'wal_gopay', name: 'GoPay', type: 'E-Wallet', initial_balance: 1450000, color: 'sky', icon: 'fa-mobile-screen-button' },
+      { id: 'wal_tunai', name: 'Tunai', type: 'Tunai', initial_balance: 850000, color: 'emerald', icon: 'fa-money-bill-wave' }
     ];
 
-    // Default Monthly Budgets
+    // Anggaran Bulanan Default
     const DEFAULT_BUDGETS = [
-      { id: 'bud_1', categoryId: 'cat_food', limit: 2500000 },
-      { id: 'bud_2', categoryId: 'cat_trans', limit: 1200000 },
-      { id: 'bud_3', categoryId: 'cat_shop', limit: 1500000 },
-      { id: 'bud_4', categoryId: 'cat_bill', limit: 1800000 },
-      { id: 'bud_5', categoryId: 'cat_biz_exp', limit: 3500000 },
-      { id: 'bud_6', categoryId: 'cat_ent', limit: 750000 }
+      { id: 'bud_makanan', category_id: 'cat_makanan', month: '2026-11', limit_amount: 2500000 },
+      { id: 'bud_transport', category_id: 'cat_transport', month: '2026-11', limit_amount: 1200000 },
+      { id: 'bud_belanja', category_id: 'cat_belanja', month: '2026-11', limit_amount: 1500000 },
+      { id: 'bud_tagihan', category_id: 'cat_tagihan', month: '2026-11', limit_amount: 1800000 }
     ];
 
-    // Realistic Indonesian Sample Transactions (Jun 2026 - Nov 14, 2026)
+    // Transaksi Demo (Untuk Fallback Lokal / Offline Preview)
     const DEFAULT_TRANSACTIONS = [
-      // November 2026 (Current Month)
-      { id: 'tx_101', type: 'expense', amount: 68000, categoryId: 'cat_food', walletId: 'wal_gopay', toWalletId: null, date: '2026-11-14', note: 'Makan Siang Nasi Padang & Es Teh' },
-      { id: 'tx_102', type: 'income', amount: 2450000, categoryId: 'cat_biz_inc', walletId: 'wal_bca', toWalletId: null, date: '2026-11-14', note: 'Omzet Penjualan Harian Toko' },
-      { id: 'tx_103', type: 'expense', amount: 150000, categoryId: 'cat_trans', walletId: 'wal_cash', toWalletId: null, date: '2026-11-13', note: 'Isi Bensin Pertamax Full Tank' },
-      { id: 'tx_104', type: 'transfer', amount: 1000000, categoryId: null, walletId: 'wal_bca', toWalletId: 'wal_gopay', date: '2026-11-12', note: 'Top Up Saldo GoPay Operasional' },
-      { id: 'tx_105', type: 'expense', amount: 850000, categoryId: 'cat_biz_exp', walletId: 'wal_bca', toWalletId: null, date: '2026-11-11', note: 'Restock Kemasan Kardus & Bubble Wrap' },
-      { id: 'tx_106', type: 'expense', amount: 645000, categoryId: 'cat_bill', walletId: 'wal_bca', toWalletId: null, date: '2026-11-10', note: 'Tagihan Listrik PLN & Internet Fiber' },
-      { id: 'tx_107', type: 'expense', amount: 320000, categoryId: 'cat_shop', walletId: 'wal_gopay', toWalletId: null, date: '2026-11-08', note: 'Belanja Kebutuhan Rumah Tangga' },
-      { id: 'tx_108', type: 'transfer', amount: 3000000, categoryId: null, walletId: 'wal_bca', toWalletId: 'wal_save', date: '2026-11-05', note: 'Alokasi Tabungan Rutin Bulanan' },
-      { id: 'tx_109', type: 'expense', amount: 185000, categoryId: 'cat_health', walletId: 'wal_gopay', toWalletId: null, date: '2026-11-04', note: 'Vitamin & Obat Apotek Kimia Farma' },
-      { id: 'tx_110', type: 'income', amount: 9500000, categoryId: 'cat_salary', walletId: 'wal_bca', toWalletId: null, date: '2026-11-01', note: 'Gaji Bulanan November 2026' },
-      { id: 'tx_111', type: 'expense', amount: 125000, categoryId: 'cat_ent', walletId: 'wal_gopay', toWalletId: null, date: '2026-11-02', note: 'Langganan Musik & Streaming' },
-
-      // Historical Months (June - October 2026) for 6-Month Bar Chart
-      { id: 'tx_201', type: 'income', amount: 11200000, categoryId: 'cat_salary', walletId: 'wal_bca', toWalletId: null, date: '2026-10-05', note: 'Gaji & Bonus Oktober 2026' },
-      { id: 'tx_202', type: 'expense', amount: 5400000, categoryId: 'cat_biz_exp', walletId: 'wal_bca', toWalletId: null, date: '2026-10-18', note: 'Pengeluaran Operasional & Rumah Oktober' },
-
-      { id: 'tx_203', type: 'income', amount: 10800000, categoryId: 'cat_biz_inc', walletId: 'wal_bca', toWalletId: null, date: '2026-09-10', note: 'Pendapatan Gaji & Usaha September' },
-      { id: 'tx_204', type: 'expense', amount: 6100000, categoryId: 'cat_shop', walletId: 'wal_bca', toWalletId: null, date: '2026-09-21', note: 'Belanja & Tagihan September' },
-
-      { id: 'tx_205', type: 'income', amount: 12100000, categoryId: 'cat_salary', walletId: 'wal_bca', toWalletId: null, date: '2026-08-05', note: 'Gaji & Dividen Agustus 2026' },
-      { id: 'tx_206', type: 'expense', amount: 4950000, categoryId: 'cat_food', walletId: 'wal_bca', toWalletId: null, date: '2026-08-19', note: 'Pengeluaran Bulanan Agustus' },
-
-      { id: 'tx_207', type: 'income', amount: 9900000, categoryId: 'cat_salary', walletId: 'wal_bca', toWalletId: null, date: '2026-07-05', note: 'Gaji Juli 2026' },
-      { id: 'tx_208', type: 'expense', amount: 5800000, categoryId: 'cat_bill', walletId: 'wal_bca', toWalletId: null, date: '2026-07-15', note: 'Tagihan & Kebutuhan Juli' },
-
-      { id: 'tx_209', type: 'income', amount: 10500000, categoryId: 'cat_biz_inc', walletId: 'wal_bca', toWalletId: null, date: '2026-06-08', note: 'Pemasukan Juni 2026' },
-      { id: 'tx_210', type: 'expense', amount: 5200000, categoryId: 'cat_trans', walletId: 'wal_bca', toWalletId: null, date: '2026-06-22', note: 'Pengeluaran Juni 2026' }
+      { id: 'tx_01', type: 'expense', amount: 65000, category_id: 'cat_makanan', wallet_id: 'wal_gopay', to_wallet_id: null, date: '2026-11-14', note: 'Makan Siang & Kopi Susu' },
+      { id: 'tx_02', type: 'income', amount: 3250000, category_id: 'cat_bisnis', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-11-14', note: 'Pendapatan Harian Bisnis/Klinik' },
+      { id: 'tx_03', type: 'expense', amount: 150000, category_id: 'cat_transport', wallet_id: 'wal_tunai', to_wallet_id: null, date: '2026-11-13', note: 'Isi BBM & Parkir' },
+      { id: 'tx_04', type: 'transfer', amount: 1000000, category_id: null, wallet_id: 'wal_bca', to_wallet_id: 'wal_gopay', date: '2026-11-12', note: 'Top Up Saldo GoPay' },
+      { id: 'tx_05', type: 'expense', amount: 720000, category_id: 'cat_tagihan', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-11-10', note: 'Listrik PLN & Internet Fiber' },
+      { id: 'tx_06', type: 'expense', amount: 480000, category_id: 'cat_belanja', wallet_id: 'wal_gopay', to_wallet_id: null, date: '2026-11-08', note: 'Belanja Kebutuhan Bulanan' },
+      { id: 'tx_07', type: 'expense', amount: 210000, category_id: 'cat_kesehatan', wallet_id: 'wal_gopay', to_wallet_id: null, date: '2026-11-05', note: 'Vitamin & Obat Apotek' },
+      { id: 'tx_08', type: 'income', amount: 9500000, category_id: 'cat_gaji', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-11-01', note: 'Gaji Bulanan November 2026' },
+      { id: 'tx_09', type: 'expense', amount: 135000, category_id: 'cat_hiburan', wallet_id: 'wal_gopay', to_wallet_id: null, date: '2026-11-02', note: 'Langganan Streaming & Musik' },
+      // Riwayat 5 Bulan Sebelumnya untuk Grafik Bar 6 Bulan
+      { id: 'tx_10', type: 'income', amount: 11800000, category_id: 'cat_gaji', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-10-05', note: 'Gaji & Bisnis Oktober 2026' },
+      { id: 'tx_11', type: 'expense', amount: 5200000, category_id: 'cat_belanja', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-10-18', note: 'Pengeluaran Operasional Oktober' },
+      { id: 'tx_12', type: 'income', amount: 11200000, category_id: 'cat_bisnis', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-09-08', note: 'Pemasukan September 2026' },
+      { id: 'tx_13', type: 'expense', amount: 5900000, category_id: 'cat_tagihan', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-09-20', note: 'Pengeluaran September 2026' },
+      { id: 'tx_14', type: 'income', amount: 12400000, category_id: 'cat_bonus', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-08-05', note: 'Gaji & Bonus Agustus 2026' },
+      { id: 'tx_15', type: 'expense', amount: 4800000, category_id: 'cat_makanan', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-08-19', note: 'Pengeluaran Agustus 2026' },
+      { id: 'tx_16', type: 'income', amount: 10200000, category_id: 'cat_gaji', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-07-05', note: 'Gaji Juli 2026' },
+      { id: 'tx_17', type: 'expense', amount: 5400000, category_id: 'cat_transport', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-07-16', note: 'Pengeluaran Juli 2026' },
+      { id: 'tx_18', type: 'income', amount: 10900000, category_id: 'cat_bisnis', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-06-07', note: 'Pemasukan Juni 2026' },
+      { id: 'tx_19', type: 'expense', amount: 4950000, category_id: 'cat_belanja', wallet_id: 'wal_bca', to_wallet_id: null, date: '2026-06-21', note: 'Pengeluaran Juni 2026' }
     ];
 
     // =========================================================================
-    // 2. APPLICATION STATE & PERSISTENCE
+    // 2. APPLICATION STATE
     // =========================================================================
     let state = {
       theme: 'dark',
       hideBalance: false,
       activeTab: 'beranda',
       dompetSubTab: 'wallets',
-      selectedMonth: '2026-11',
+      selectedMonth: getTodayISO().slice(0, 7),
+      d1Connected: false,
       filters: {
         search: '',
         type: 'all',
@@ -1166,68 +1283,237 @@ CREATE TABLE IF NOT EXISTS transactions (
       wallets: [],
       categories: [],
       budgets: [],
-      transactions: [],
-      supabase: {
-        url: '',
-        anonKey: '',
-        connected: false
-      }
+      transactions: []
     };
 
     let formTxType = 'expense';
-    let selectedCategoryId = 'cat_food';
+    let selectedCategoryId = 'cat_makanan';
     let selectedWalletColor = 'indigo';
     let donutChartInstance = null;
     let barChartInstance = null;
-    let supabaseClient = null;
 
-    // Load from localStorage or initialize with seed data
-    function loadState() {
+    function getTodayISO() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    // =========================================================================
+    // 3. CLOUDFLARE D1 API LAYER & LOCALSTORAGE FALLBACK
+    // =========================================================================
+    function updateD1StatusUI(connected, note = '') {
+      state.d1Connected = connected;
+      const badge = document.getElementById('d1StatusBadge');
+      const dot = document.getElementById('d1StatusDot');
+      const text = document.getElementById('d1StatusText');
+      const panelBadge = document.getElementById('d1PanelBadge');
+      const syncInfo = document.getElementById('d1LastSyncInfo');
+
+      if (connected) {
+        badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 transition active:scale-95 flex-shrink-0';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse';
+        text.textContent = 'D1 Cloud';
+
+        if (panelBadge) {
+          panelBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-500 border border-emerald-500/25';
+          panelBadge.textContent = 'D1 Cloud Aktif';
+        }
+        if (syncInfo) {
+          syncInfo.textContent = note || `Terhubung ke Cloudflare D1 (${new Date().toLocaleTimeString('id-ID')})`;
+        }
+      } else {
+        badge.className = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 transition active:scale-95 flex-shrink-0';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-500';
+        text.textContent = 'Mode Lokal';
+
+        if (panelBadge) {
+          panelBadge.className = 'px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-500 border border-amber-500/25';
+          panelBadge.textContent = 'Mode Lokal';
+        }
+        if (syncInfo) {
+          syncInfo.textContent = note || 'Offline / Preview lokal (tersimpan otomatis di localStorage).';
+        }
+      }
+    }
+
+    function saveLocalCache() {
+      try {
+        const cachePayload = {
+          theme: state.theme,
+          hideBalance: state.hideBalance,
+          selectedMonth: state.selectedMonth,
+          wallets: state.wallets,
+          categories: state.categories,
+          budgets: state.budgets,
+          transactions: state.transactions
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cachePayload));
+      } catch (e) {
+        console.error('Gagal menyimpan localStorage:', e);
+      }
+    }
+
+    function loadLocalCache() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          state = {
-            ...state,
-            ...parsed,
-            filters: { ...state.filters, ...(parsed.filters || {}) },
-            supabase: { ...state.supabase, ...(parsed.supabase || {}) }
-          };
-        } else {
-          seedDefaultData(false);
+          state.theme = parsed.theme || 'dark';
+          state.hideBalance = Boolean(parsed.hideBalance);
+          state.selectedMonth = parsed.selectedMonth || getTodayISO().slice(0, 7);
+          state.wallets = Array.isArray(parsed.wallets) && parsed.wallets.length ? parsed.wallets : JSON.parse(JSON.stringify(DEFAULT_WALLETS));
+          state.categories = Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+          state.budgets = Array.isArray(parsed.budgets) ? parsed.budgets : JSON.parse(JSON.stringify(DEFAULT_BUDGETS));
+          state.transactions = Array.isArray(parsed.transactions) ? parsed.transactions : JSON.parse(JSON.stringify(DEFAULT_TRANSACTIONS));
+          return;
         }
-      } catch (err) {
-        console.error('Gagal memuat state:', err);
-        seedDefaultData(false);
+      } catch (e) {
+        console.warn('Cache lokal tidak valid, memuat data demo:', e);
       }
-
-      applyTheme();
-      initSupabaseClientIfConfigured();
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      } catch (err) {
-        console.error('Gagal menyimpan state:', err);
-      }
-    }
-
-    function seedDefaultData(notify = true) {
       state.wallets = JSON.parse(JSON.stringify(DEFAULT_WALLETS));
       state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
       state.budgets = JSON.parse(JSON.stringify(DEFAULT_BUDGETS));
       state.transactions = JSON.parse(JSON.stringify(DEFAULT_TRANSACTIONS));
-      state.selectedMonth = '2026-11';
-      saveState();
+      saveLocalCache();
+    }
+
+    async function apiRequest(endpoint, method = 'GET', body = null) {
+      const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+      if (body) options.body = JSON.stringify(body);
+      const response = await fetch(endpoint, options);
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.error || `HTTP ${response.status}`);
+      }
+      return response.json();
+    }
+
+    // Inisialisasi aplikasi: Muat cache lokal dulu untuk render instan, lalu panggil GET /api/state
+    async function initializeApp() {
+      loadLocalCache();
+      applyTheme();
+      updatePrivacyIcon();
       renderAll();
-      if (notify) {
-        showToast('Data demo November 2026 berhasil dipulihkan!', 'success');
+
+      await syncWithCloudflareD1(false);
+    }
+
+    async function syncWithCloudflareD1(showNotification = true) {
+      try {
+        const data = await apiRequest('/api/state', 'GET');
+        updateD1StatusUI(true);
+
+        const remoteWallets = Array.isArray(data.wallets) ? data.wallets : [];
+        const remoteCategories = Array.isArray(data.categories) ? data.categories : [];
+        const remoteBudgets = Array.isArray(data.budgets) ? data.budgets : [];
+        const remoteTransactions = Array.isArray(data.transactions) ? data.transactions : [];
+
+        // Jika database D1 masih kosong, otomatis isi kategori & dompet awal lalu POST ke D1
+        if (remoteCategories.length === 0 && remoteWallets.length === 0) {
+          state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+          state.wallets = JSON.parse(JSON.stringify(DEFAULT_WALLETS));
+          state.budgets = [];
+          state.transactions = [];
+
+          await Promise.all([
+            ...state.categories.map(c => apiRequest('/api/categories', 'POST', c)),
+            ...state.wallets.map(w => apiRequest('/api/wallets', 'POST', w))
+          ]);
+
+          saveLocalCache();
+          renderAll();
+          updateD1StatusUI(true, `D1 diinisialisasi dengan kategori & dompet awal (${new Date().toLocaleTimeString('id-ID')})`);
+          if (showNotification) showToast('Database D1 berhasil diinisialisasi!', 'success');
+          return;
+        }
+
+        // Normalisasi & muat data dari D1
+        if (remoteCategories.length > 0) {
+          state.categories = remoteCategories;
+        } else {
+          state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+          await Promise.all(state.categories.map(c => apiRequest('/api/categories', 'POST', c)));
+        }
+
+        if (remoteWallets.length > 0) {
+          state.wallets = remoteWallets.map(w => ({
+            id: w.id,
+            name: w.name,
+            type: w.type,
+            initial_balance: Number(w.initial_balance) || 0,
+            color: w.color || 'indigo',
+            icon: w.icon || 'fa-wallet'
+          }));
+        } else {
+          state.wallets = JSON.parse(JSON.stringify(DEFAULT_WALLETS));
+          await Promise.all(state.wallets.map(w => apiRequest('/api/wallets', 'POST', w)));
+        }
+
+        state.budgets = remoteBudgets.map(b => ({
+          id: b.id,
+          category_id: b.category_id,
+          month: b.month || state.selectedMonth,
+          limit_amount: Number(b.limit_amount) || 0
+        }));
+
+        state.transactions = remoteTransactions.map(t => ({
+          id: t.id,
+          type: t.type,
+          amount: Number(t.amount) || 0,
+          category_id: t.category_id || null,
+          wallet_id: t.wallet_id,
+          to_wallet_id: t.to_wallet_id || null,
+          date: t.date,
+          note: t.note || ''
+        }));
+
+        saveLocalCache();
+        renderAll();
+        if (showNotification) {
+          showToast('Tersinkronisasi dengan Cloudflare D1!', 'success');
+        }
+      } catch (err) {
+        console.warn('Cloudflare D1 tidak terjangkau, menggunakan Mode Lokal:', err.message);
+        updateD1StatusUI(false, `Mode Lokal aktif (${err.message})`);
+        if (showNotification) {
+          showToast('Berjalan di Mode Lokal (offline/preview)', 'info');
+        }
+      }
+    }
+
+    async function testAndSyncD1() {
+      showToast('Menghubungkan ke Cloudflare D1...', 'info');
+      await syncWithCloudflareD1(true);
+    }
+
+    async function pushLocalDataToD1() {
+      try {
+        showToast('Mengirim seluruh data lokal ke D1...', 'info');
+        await Promise.all(state.categories.map(c => apiRequest('/api/categories', 'POST', c)));
+        await Promise.all(state.wallets.map(w => apiRequest('/api/wallets', 'POST', w)));
+        await Promise.all(state.budgets.map(b => apiRequest('/api/budgets', 'POST', b)));
+        for (const tx of state.transactions) {
+          try {
+            await apiRequest('/api/transactions', 'POST', tx);
+          } catch (_) {
+            await apiRequest(`/api/transactions/${tx.id}`, 'PUT', tx);
+          }
+        }
+        updateD1StatusUI(true, `Data lokal berhasil dikirim ke D1 (${new Date().toLocaleTimeString('id-ID')})`);
+        showToast('Semua data lokal berhasil dikirim ke D1!', 'success');
+      } catch (err) {
+        updateD1StatusUI(false, `Gagal mengirim ke D1: ${err.message}`);
+        showToast(`Gagal kirim ke D1: ${err.message}`, 'error');
       }
     }
 
     // =========================================================================
-    // 3. FORMATTING & HELPER UTILITIES
+    // 4. FORMATTING & CALCULATION HELPERS
     // =========================================================================
     function formatRupiah(amount, withPrefix = true) {
       if (state.hideBalance) {
@@ -1240,6 +1526,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     function formatCompactRupiah(amount) {
+      if (state.hideBalance) return 'Rp ••••';
       const abs = Math.abs(amount);
       const sign = amount < 0 ? '-' : '';
       if (abs >= 1000000000) return `${sign}Rp ${(abs / 1000000000).toFixed(1).replace('.', ',')} M`;
@@ -1254,8 +1541,8 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     function formatDateGroupHeader(dateStr) {
-      if (dateStr === '2026-11-14') return 'Hari Ini, 14 Nov 2026';
-      if (dateStr === '2026-11-13') return 'Kemarin, 13 Nov 2026';
+      const today = getTodayISO();
+      if (dateStr === today) return `Hari Ini, ${dateStr.split('-')[2]} ${MONTH_NAMES_ID[Number(dateStr.split('-')[1]) - 1].slice(0, 3)} ${dateStr.split('-')[0]}`;
       const [y, m, d] = dateStr.split('-').map(Number);
       return `${d} ${MONTH_NAMES_ID[m - 1].slice(0, 3)} ${y}`;
     }
@@ -1271,10 +1558,9 @@ CREATE TABLE IF NOT EXISTS transactions (
       el.value = raw > 0 ? raw.toLocaleString('id-ID') : '';
     }
 
-    function quickAddAmount(addVal) {
+    function quickAddAmount(val) {
       const input = document.getElementById('txAmountInput');
-      const current = parseFormattedNumber(input.value);
-      const next = current + addVal;
+      const next = parseFormattedNumber(input.value) + val;
       input.value = next.toLocaleString('id-ID');
     }
 
@@ -1286,23 +1572,29 @@ CREATE TABLE IF NOT EXISTS transactions (
       return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
     }
 
-    // =========================================================================
-    // 4. CORE FINANCIAL CALCULATIONS
-    // =========================================================================
+    function escapeHTML(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Real-time Wallet Balance = initial_balance + income - expense +/- transfer
     function getWalletBalance(walletId) {
       const wallet = state.wallets.find(w => w.id === walletId);
       if (!wallet) return 0;
-      let bal = Number(wallet.initialBalance) || 0;
+      let bal = Number(wallet.initial_balance) || 0;
 
       for (const tx of state.transactions) {
         const amt = Number(tx.amount) || 0;
-        if (tx.type === 'income' && tx.walletId === walletId) {
+        if (tx.type === 'income' && tx.wallet_id === walletId) {
           bal += amt;
-        } else if (tx.type === 'expense' && tx.walletId === walletId) {
+        } else if (tx.type === 'expense' && tx.wallet_id === walletId) {
           bal -= amt;
         } else if (tx.type === 'transfer') {
-          if (tx.walletId === walletId) bal -= amt;
-          if (tx.toWalletId === walletId) bal += amt;
+          if (tx.wallet_id === walletId) bal -= amt;
+          if (tx.to_wallet_id === walletId) bal += amt;
         }
       }
       return bal;
@@ -1327,12 +1619,12 @@ CREATE TABLE IF NOT EXISTS transactions (
 
     function getCategorySpentInMonth(categoryId, ym) {
       return state.transactions
-        .filter(t => t.type === 'expense' && t.categoryId === categoryId && t.date && t.date.startsWith(ym))
+        .filter(t => t.type === 'expense' && t.category_id === categoryId && t.date && t.date.startsWith(ym))
         .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
     }
 
     // =========================================================================
-    // 5. THEME & NAVIGATION CONTROLS
+    // 5. THEME, PRIVACY & NAVIGATION CONTROLS
     // =========================================================================
     function applyTheme() {
       const html = document.documentElement;
@@ -1348,31 +1640,33 @@ CREATE TABLE IF NOT EXISTS transactions (
 
     function toggleTheme() {
       state.theme = state.theme === 'dark' ? 'light' : 'dark';
-      saveState();
+      saveLocalCache();
       applyTheme();
-      if (state.activeTab === 'analitik') {
-        renderAnalyticsCharts();
-      }
+      if (state.activeTab === 'analitik') renderAnalyticsCharts();
+    }
+
+    function updatePrivacyIcon() {
+      const icon = document.getElementById('privacyIcon');
+      icon.className = state.hideBalance ? 'fas fa-eye-slash text-xs text-rose-400' : 'fas fa-eye text-xs';
     }
 
     function toggleHideBalance() {
       state.hideBalance = !state.hideBalance;
-      const icon = document.getElementById('privacyIcon');
-      icon.className = state.hideBalance ? 'fas fa-eye-slash text-xs text-rose-400' : 'fas fa-eye text-xs';
-      saveState();
+      updatePrivacyIcon();
+      saveLocalCache();
       renderAll();
     }
 
     function switchTab(tabName, subTab = null) {
       state.activeTab = tabName;
       ['beranda', 'transaksi', 'analitik', 'dompet'].forEach(t => {
-        const sec = document.getElementById(`view-${t}`);
-        if (sec) sec.classList.toggle('hidden', t !== tabName);
+        const el = document.getElementById(`view-${t}`);
+        if (el) el.classList.toggle('hidden', t !== tabName);
       });
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
-        const isTarget = btn.getAttribute('data-nav') === tabName;
-        btn.className = isTarget
+        const active = btn.getAttribute('data-nav') === tabName;
+        btn.className = active
           ? 'nav-btn flex flex-col items-center justify-center gap-1 py-1 text-indigo-600 dark:text-indigo-400'
           : 'nav-btn flex flex-col items-center justify-center gap-1 py-1 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200';
       });
@@ -1387,7 +1681,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 
     function setDompetSubTab(subName) {
       state.dompetSubTab = subName;
-      ['wallets', 'budgets', 'categories', 'system'].forEach(s => {
+      ['wallets', 'budgets', 'categories', 'd1'].forEach(s => {
         const el = document.getElementById(`subview-${s}`);
         if (el) el.classList.toggle('hidden', s !== subName);
       });
@@ -1398,11 +1692,6 @@ CREATE TABLE IF NOT EXISTS transactions (
           ? 'dompet-subtab py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow-xs transition'
           : 'dompet-subtab py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition';
       });
-
-      if (subName === 'system') {
-        document.getElementById('supabaseUrlInput').value = state.supabase.url || '';
-        document.getElementById('supabaseKeyInput').value = state.supabase.anonKey || '';
-      }
     }
 
     function changeMonth(delta) {
@@ -1411,19 +1700,19 @@ CREATE TABLE IF NOT EXISTS transactions (
       if (m > 12) { m = 1; y += 1; }
       if (m < 1) { m = 12; y -= 1; }
       state.selectedMonth = `${y}-${String(m).padStart(2, '0')}`;
-      saveState();
+      saveLocalCache();
       renderAll();
     }
 
     function resetToCurrentMonth() {
-      state.selectedMonth = '2026-11';
-      saveState();
+      state.selectedMonth = getTodayISO().slice(0, 7);
+      saveLocalCache();
       renderAll();
-      showToast('Kembali ke November 2026', 'info');
+      showToast(`Kembali ke ${formatMonthLabel(state.selectedMonth)}`, 'info');
     }
 
     // =========================================================================
-    // 6. RENDERING: BERANDA (DASHBOARD)
+    // 6. RENDERING: TAB BERANDA (DASHBOARD)
     // =========================================================================
     function renderDashboard() {
       const label = formatMonthLabel(state.selectedMonth);
@@ -1439,20 +1728,18 @@ CREATE TABLE IF NOT EXISTS transactions (
       document.getElementById('heroMonthlyExpense').textContent = formatRupiah(metrics.expense);
 
       const netEl = document.getElementById('heroNetCashflow');
-      const netPrefix = metrics.net >= 0 ? '+' : '';
-      netEl.textContent = `${netPrefix}${formatRupiah(metrics.net)}`;
+      netEl.textContent = `${metrics.net >= 0 ? '+' : ''}${formatRupiah(metrics.net)}`;
       netEl.className = metrics.net >= 0 ? 'font-bold text-emerald-400' : 'font-bold text-rose-400';
 
       const rateBadge = document.getElementById('savingsRateBadge');
-      const rateSign = metrics.savingsRate > 0 ? '+' : '';
-      rateBadge.textContent = `Rasio Tabungan ${rateSign}${metrics.savingsRate}%`;
+      rateBadge.textContent = `Rasio Tabungan ${metrics.savingsRate > 0 ? '+' : ''}${metrics.savingsRate}%`;
       rateBadge.className = metrics.savingsRate >= 20
         ? 'px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30'
         : metrics.savingsRate >= 0
           ? 'px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30'
           : 'px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-300 border border-rose-400/30';
 
-      // Render Horizontal Wallets Strip
+      // Horizontal Scrollable Wallet Cards
       const walletsContainer = document.getElementById('dashboardWalletsList');
       walletsContainer.innerHTML = state.wallets.map(w => {
         const bal = getWalletBalance(w.id);
@@ -1463,24 +1750,31 @@ CREATE TABLE IF NOT EXISTS transactions (
               <span class="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center text-xs">
                 <i class="fas ${w.icon || 'fa-wallet'}"></i>
               </span>
-              <span class="text-[10px] font-semibold bg-black/20 px-2 py-0.5 rounded-full">${w.type}</span>
+              <span class="text-[10px] font-semibold bg-black/20 px-2 py-0.5 rounded-full">${escapeHTML(w.type)}</span>
             </div>
-            <p class="text-xs font-semibold text-white/90 mt-2.5 truncate">${w.name}</p>
+            <p class="text-xs font-semibold text-white/90 mt-2.5 truncate">${escapeHTML(w.name)}</p>
             <p class="text-sm font-extrabold text-white mt-0.5 truncate">${formatRupiah(bal)}</p>
           </div>
         `;
       }).join('');
 
-      // Render Monthly Budget Overview Bar
-      const totalBudgetLimit = state.budgets.reduce((s, b) => s + (Number(b.limit) || 0), 0);
-      const totalBudgetSpent = state.budgets.reduce((s, b) => s + getCategorySpentInMonth(b.categoryId, state.selectedMonth), 0);
-      const pct = totalBudgetLimit > 0 ? Math.min(100, Math.round((totalBudgetSpent / totalBudgetLimit) * 100)) : 0;
-      const rawPct = totalBudgetLimit > 0 ? Math.round((totalBudgetSpent / totalBudgetLimit) * 100) : 0;
-      const rem = totalBudgetLimit - totalBudgetSpent;
+      // Monthly Budget Progress Summary (Filtered by selectedMonth or fallback to all budgets if none for month)
+      let activeBudgets = state.budgets.filter(b => b.month === state.selectedMonth);
+      if (activeBudgets.length === 0) activeBudgets = state.budgets;
 
-      document.getElementById('budgetOverviewSubtitle').textContent = `Terpakai ${formatRupiah(totalBudgetSpent)} dari ${formatRupiah(totalBudgetLimit)}`;
+      const totalLimit = activeBudgets.reduce((s, b) => s + (Number(b.limit_amount) || 0), 0);
+      const totalSpent = activeBudgets.reduce((s, b) => s + getCategorySpentInMonth(b.category_id, state.selectedMonth), 0);
+      const rawPct = totalLimit > 0 ? Math.round((totalSpent / totalLimit) * 100) : 0;
+      const barPct = Math.min(100, rawPct);
+      const remaining = totalLimit - totalSpent;
+
+      document.getElementById('budgetOverviewSubtitle').textContent = totalLimit > 0
+        ? `Terpakai ${formatRupiah(totalSpent)} dari ${formatRupiah(totalLimit)}`
+        : 'Belum ada anggaran bulanan diatur';
+
       const bar = document.getElementById('budgetOverviewBar');
-      bar.style.width = `${pct}%`;
+      bar.style.width = `${barPct}%`;
+      // Dynamic color bar: Hijau <75%, Kuning 75-99%, Merah >=100%
       bar.className = rawPct >= 100
         ? 'h-full bg-rose-500 rounded-full transition-all duration-500'
         : rawPct >= 75
@@ -1490,9 +1784,11 @@ CREATE TABLE IF NOT EXISTS transactions (
       const pctLabel = document.getElementById('budgetOverviewPercent');
       pctLabel.textContent = `${rawPct}% terpakai`;
       pctLabel.className = rawPct >= 100 ? 'font-bold text-rose-500' : rawPct >= 75 ? 'font-bold text-amber-500' : 'font-bold text-emerald-500';
-      document.getElementById('budgetOverviewRemaining').textContent = rem >= 0 ? `Sisa: ${formatRupiah(rem)}` : `Over: ${formatRupiah(Math.abs(rem))}`;
+      document.getElementById('budgetOverviewRemaining').textContent = remaining >= 0
+        ? `Sisa: ${formatRupiah(remaining)}`
+        : `Melebihi: ${formatRupiah(Math.abs(remaining))}`;
 
-      // Render Recent Transactions (Current Month, up to 8 items)
+      // Recent Transactions Grouped by Date (with quick Edit & Delete)
       const monthTxs = state.transactions
         .filter(t => t.date && t.date.startsWith(state.selectedMonth))
         .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))
@@ -1506,11 +1802,11 @@ CREATE TABLE IF NOT EXISTS transactions (
               <i class="fas fa-receipt text-base"></i>
             </div>
             <p class="text-xs font-bold text-slate-800 dark:text-white">Belum ada transaksi di ${label}</p>
-            <p class="text-[11px] text-slate-500 mt-1">Tekan tombol + di bawah untuk mencatat pemasukan atau pengeluaran.</p>
+            <p class="text-[11px] text-slate-500 mt-1">Ketuk tombol + di tengah bawah untuk menambah transaksi pertama.</p>
           </div>
         `;
       } else {
-        recentEl.innerHTML = renderGroupedTransactionsHTML(monthTxs, false);
+        recentEl.innerHTML = renderGroupedTransactionsHTML(monthTxs);
       }
     }
 
@@ -1520,7 +1816,7 @@ CREATE TABLE IF NOT EXISTS transactions (
       switchTab('transaksi');
     }
 
-    function renderGroupedTransactionsHTML(txList, showActionButtons = true) {
+    function renderGroupedTransactionsHTML(txList) {
       const groups = {};
       for (const tx of txList) {
         if (!groups[tx.date]) groups[tx.date] = [];
@@ -1531,12 +1827,12 @@ CREATE TABLE IF NOT EXISTS transactions (
         .sort((a, b) => b.localeCompare(a))
         .map(dateKey => {
           const itemsHTML = groups[dateKey].map(tx => {
-            const wallet = state.wallets.find(w => w.id === tx.walletId);
-            const toWallet = tx.toWalletId ? state.wallets.find(w => w.id === tx.toWalletId) : null;
-            const cat = state.categories.find(c => c.id === tx.categoryId);
+            const wallet = state.wallets.find(w => w.id === tx.wallet_id);
+            const toWallet = tx.to_wallet_id ? state.wallets.find(w => w.id === tx.to_wallet_id) : null;
+            const cat = state.categories.find(c => c.id === tx.category_id);
 
-            let iconClass = 'fa-arrow-right-arrow-left';
-            let iconBg = '#6366F1';
+            let iconClass = 'fa-right-left';
+            let iconColor = '#6366F1';
             let title = tx.note || 'Transfer Antar Dompet';
             let walletBadge = wallet ? `${wallet.name} → ${toWallet ? toWallet.name : '?'}` : 'Transfer';
             let amountColor = 'text-indigo-500';
@@ -1544,14 +1840,14 @@ CREATE TABLE IF NOT EXISTS transactions (
 
             if (tx.type === 'income') {
               iconClass = cat ? cat.icon : 'fa-coins';
-              iconBg = cat ? cat.color : '#10B981';
+              iconColor = cat ? cat.color : '#10B981';
               title = tx.note || (cat ? cat.name : 'Pemasukan');
               walletBadge = wallet ? wallet.name : 'Dompet';
               amountColor = 'text-emerald-500';
               amountPrefix = '+';
             } else if (tx.type === 'expense') {
               iconClass = cat ? cat.icon : 'fa-bag-shopping';
-              iconBg = cat ? cat.color : '#F43F5E';
+              iconColor = cat ? cat.color : '#F43F5E';
               title = tx.note || (cat ? cat.name : 'Pengeluaran');
               walletBadge = wallet ? wallet.name : 'Dompet';
               amountColor = 'text-rose-500';
@@ -1559,15 +1855,15 @@ CREATE TABLE IF NOT EXISTS transactions (
             }
 
             return `
-              <div class="group bg-white dark:bg-[#111827] hover:bg-slate-50 dark:hover:bg-[#1E293B]/80 border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3 flex items-center justify-between gap-2.5 transition">
+              <div class="bg-white dark:bg-[#111827] hover:bg-slate-50 dark:hover:bg-[#1E293B]/75 border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3 flex items-center justify-between gap-2 transition">
                 <div onclick="openTransactionModal('${tx.id}')" class="cursor-pointer flex items-center gap-3 flex-1 min-w-0">
-                  <div class="w-10 h-10 rounded-xl flex items-center justify-center text-white flex-shrink-0 shadow-xs" style="background-color: ${iconBg}22; color: ${iconBg}; border: 1px solid ${iconBg}40;">
+                  <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: ${iconColor}20; color: ${iconColor}; border: 1px solid ${iconColor}40;">
                     <i class="fas ${iconClass} text-sm"></i>
                   </div>
                   <div class="min-w-0 flex-1">
                     <p class="text-xs font-bold text-slate-900 dark:text-white truncate">${escapeHTML(title)}</p>
                     <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
-                      <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300 truncate max-w-[140px]">
+                      <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300 truncate max-w-[130px]">
                         ${escapeHTML(walletBadge)}
                       </span>
                       ${cat && tx.type !== 'transfer' ? `<span class="text-[10px] text-slate-400 truncate">${escapeHTML(cat.name)}</span>` : ''}
@@ -1575,20 +1871,18 @@ CREATE TABLE IF NOT EXISTS transactions (
                   </div>
                 </div>
 
-                <div class="flex items-center gap-2 flex-shrink-0">
-                  <div onclick="openTransactionModal('${tx.id}')" class="cursor-pointer text-right">
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  <div onclick="openTransactionModal('${tx.id}')" class="cursor-pointer text-right pr-1">
                     <p class="text-xs font-extrabold ${amountColor}">${amountPrefix}${formatRupiah(tx.amount)}</p>
                   </div>
-                  ${showActionButtons ? `
-                    <div class="flex items-center gap-1 pl-1 border-l border-slate-200 dark:border-[#1F2937]">
-                      <button onclick="openTransactionModal('${tx.id}')" class="w-7 h-7 rounded-lg hover:bg-indigo-500/15 text-slate-400 hover:text-indigo-500 flex items-center justify-center transition" title="Edit">
-                        <i class="fas fa-pen text-[11px]"></i>
-                      </button>
-                      <button onclick="askDeleteTransaction('${tx.id}')" class="w-7 h-7 rounded-lg hover:bg-rose-500/15 text-slate-400 hover:text-rose-500 flex items-center justify-center transition" title="Hapus">
-                        <i class="fas fa-trash text-[11px]"></i>
-                      </button>
-                    </div>
-                  ` : ''}
+                  <div class="flex items-center gap-1 pl-1.5 border-l border-slate-200 dark:border-[#1F2937]">
+                    <button onclick="openTransactionModal('${tx.id}')" class="w-7 h-7 rounded-lg hover:bg-indigo-500/15 text-slate-400 hover:text-indigo-500 flex items-center justify-center transition" title="Edit Transaksi">
+                      <i class="fas fa-pen text-[11px]"></i>
+                    </button>
+                    <button onclick="askDeleteTransaction('${tx.id}')" class="w-7 h-7 rounded-lg hover:bg-rose-500/15 text-slate-400 hover:text-rose-500 flex items-center justify-center transition" title="Hapus Transaksi">
+                      <i class="fas fa-trash text-[11px]"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
             `;
@@ -1598,7 +1892,7 @@ CREATE TABLE IF NOT EXISTS transactions (
             <div class="space-y-2">
               <div class="flex items-center justify-between px-1">
                 <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">${formatDateGroupHeader(dateKey)}</span>
-                <span class="text-[10px] text-slate-400">${groups[dateKey].length} item</span>
+                <span class="text-[10px] text-slate-400">${groups[dateKey].length} transaksi</span>
               </div>
               <div class="space-y-2">${itemsHTML}</div>
             </div>
@@ -1606,37 +1900,25 @@ CREATE TABLE IF NOT EXISTS transactions (
         }).join('');
     }
 
-    function escapeHTML(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
     // =========================================================================
-    // 7. RENDERING: TRANSAKSI TAB (SEARCH & MULTI-FILTER)
+    // 7. RENDERING: TAB TRANSAKSI (SEARCH & FILTERS)
     // =========================================================================
     function renderTransactionsTab() {
-      // Populate Wallet dropdown
       const walletSelect = document.getElementById('txWalletFilter');
       walletSelect.innerHTML = `<option value="all">Semua Dompet</option>` +
         state.wallets.map(w => `<option value="${w.id}" ${state.filters.walletId === w.id ? 'selected' : ''}>${escapeHTML(w.name)}</option>`).join('');
 
-      // Period dropdown sync
       const periodSelect = document.getElementById('txPeriodFilter');
       periodSelect.options[0].text = `Bulan: ${formatMonthLabel(state.selectedMonth)}`;
       periodSelect.value = state.filters.periodMode;
 
-      // Update Type Pills UI
       document.querySelectorAll('.tx-type-pill').forEach(btn => {
-        const isSelected = btn.getAttribute('data-type-pill') === state.filters.type;
-        btn.className = isSelected
-          ? 'tx-type-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition whitespace-nowrap shadow-xs'
+        const active = btn.getAttribute('data-type-pill') === state.filters.type;
+        btn.className = active
+          ? 'tx-type-pill px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 text-white transition whitespace-nowrap shadow-xs'
           : 'tx-type-pill px-3 py-1.5 rounded-xl text-xs font-semibold bg-white dark:bg-[#111827] text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-[#1F2937] transition whitespace-nowrap';
       });
 
-      // Apply Filters
       const q = state.filters.search.trim().toLowerCase();
       const filtered = state.transactions.filter(tx => {
         if (state.filters.periodMode === 'month' && (!tx.date || !tx.date.startsWith(state.selectedMonth))) {
@@ -1646,12 +1928,12 @@ CREATE TABLE IF NOT EXISTS transactions (
           return false;
         }
         if (state.filters.walletId !== 'all') {
-          const matchSource = tx.walletId === state.filters.walletId;
-          const matchDest = tx.toWalletId === state.filters.walletId;
-          if (!matchSource && !matchDest) return false;
+          if (tx.wallet_id !== state.filters.walletId && tx.to_wallet_id !== state.filters.walletId) {
+            return false;
+          }
         }
         if (q) {
-          const cat = state.categories.find(c => c.id === tx.categoryId);
+          const cat = state.categories.find(c => c.id === tx.category_id);
           const noteMatch = (tx.note || '').toLowerCase().includes(q);
           const catMatch = (cat ? cat.name : 'transfer').toLowerCase().includes(q);
           if (!noteMatch && !catMatch) return false;
@@ -1659,7 +1941,6 @@ CREATE TABLE IF NOT EXISTS transactions (
         return true;
       }).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 
-      // Summary Strip
       let sumIn = 0, sumOut = 0;
       for (const t of filtered) {
         if (t.type === 'income') sumIn += Number(t.amount) || 0;
@@ -1667,20 +1948,19 @@ CREATE TABLE IF NOT EXISTS transactions (
       }
       document.getElementById('filterSumIncome').textContent = formatRupiah(sumIn);
       document.getElementById('filterSumExpense').textContent = formatRupiah(sumOut);
-      document.getElementById('filterSumCount').textContent = `${filtered.length} Transaksi`;
+      document.getElementById('filterSumCount').textContent = `${filtered.length} Item`;
 
-      // Render List
       const listEl = document.getElementById('fullTransactionsList');
       if (filtered.length === 0) {
         listEl.innerHTML = `
           <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-8 text-center">
             <i class="fas fa-filter-circle-xmark text-3xl text-slate-400 mb-2"></i>
-            <p class="text-xs font-bold text-slate-800 dark:text-white">Tidak ada transaksi ditemukan</p>
-            <p class="text-[11px] text-slate-500 mt-1">Coba ubah kata kunci pencarian, tipe transaksi, atau filter periode.</p>
+            <p class="text-xs font-bold text-slate-800 dark:text-white">Tidak ada transaksi yang cocok</p>
+            <p class="text-[11px] text-slate-500 mt-1">Ubah kata kunci pencarian atau filter tipe/dompet di atas.</p>
           </div>
         `;
       } else {
-        listEl.innerHTML = renderGroupedTransactionsHTML(filtered, true);
+        listEl.innerHTML = renderGroupedTransactionsHTML(filtered);
       }
     }
 
@@ -1713,7 +1993,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     // =========================================================================
-    // 8. FULL CRUD: TRANSACTIONS (CREATE, READ, UPDATE, DELETE)
+    // 8. FULL CRUD: TRANSACTIONS (POST, PUT, DELETE -> CLOUDFLARE D1)
     // =========================================================================
     function openTransactionModal(txId = null) {
       const modal = document.getElementById('transactionModal');
@@ -1722,7 +2002,6 @@ CREATE TABLE IF NOT EXISTS transactions (
       const errEl = document.getElementById('txFormError');
       errEl.classList.add('hidden');
 
-      // Populate wallet dropdowns
       const walletOptions = state.wallets.map(w => `<option value="${w.id}">${escapeHTML(w.name)} (${formatRupiah(getWalletBalance(w.id))})</option>`).join('');
       document.getElementById('txWalletSelect').innerHTML = walletOptions;
       document.getElementById('txToWalletSelect').innerHTML = walletOptions;
@@ -1734,13 +2013,13 @@ CREATE TABLE IF NOT EXISTS transactions (
         document.getElementById('txIdInput').value = tx.id;
         setFormTxType(tx.type);
         document.getElementById('txAmountInput').value = Number(tx.amount).toLocaleString('id-ID');
-        if (tx.categoryId) {
-          selectedCategoryId = tx.categoryId;
+        if (tx.category_id) {
+          selectedCategoryId = tx.category_id;
           renderFormCategoryGrid();
         }
-        document.getElementById('txWalletSelect').value = tx.walletId;
-        if (tx.toWalletId) {
-          document.getElementById('txToWalletSelect').value = tx.toWalletId;
+        document.getElementById('txWalletSelect').value = tx.wallet_id;
+        if (tx.to_wallet_id) {
+          document.getElementById('txToWalletSelect').value = tx.to_wallet_id;
         }
         document.getElementById('txDateInput').value = tx.date;
         document.getElementById('txNoteInput').value = tx.note || '';
@@ -1750,7 +2029,7 @@ CREATE TABLE IF NOT EXISTS transactions (
         document.getElementById('txIdInput').value = '';
         setFormTxType('expense');
         document.getElementById('txAmountInput').value = '';
-        document.getElementById('txDateInput').value = `${state.selectedMonth}-14`;
+        document.getElementById('txDateInput').value = getTodayISO();
         document.getElementById('txNoteInput').value = '';
         if (state.wallets.length > 1) {
           document.getElementById('txToWalletSelect').selectedIndex = 1;
@@ -1786,7 +2065,7 @@ CREATE TABLE IF NOT EXISTS transactions (
       if (type === 'transfer') {
         catSec.classList.add('hidden');
         destWrap.classList.remove('hidden');
-        srcLabel.textContent = 'Dari Dompet Asal';
+        srcLabel.textContent = 'Dompet Asal';
       } else {
         catSec.classList.remove('hidden');
         destWrap.classList.add('hidden');
@@ -1838,10 +2117,10 @@ CREATE TABLE IF NOT EXISTS transactions (
       const errEl = document.getElementById('txFormError');
       errEl.classList.add('hidden');
 
-      const id = document.getElementById('txIdInput').value;
+      const existingId = document.getElementById('txIdInput').value;
       const amount = parseFormattedNumber(document.getElementById('txAmountInput').value);
-      const walletId = document.getElementById('txWalletSelect').value;
-      const toWalletId = formTxType === 'transfer' ? document.getElementById('txToWalletSelect').value : null;
+      const wallet_id = document.getElementById('txWalletSelect').value;
+      const to_wallet_id = formTxType === 'transfer' ? document.getElementById('txToWalletSelect').value : null;
       const date = document.getElementById('txDateInput').value;
       const note = document.getElementById('txNoteInput').value.trim();
 
@@ -1851,41 +2130,52 @@ CREATE TABLE IF NOT EXISTS transactions (
         return;
       }
 
-      if (formTxType === 'transfer' && walletId === toWalletId) {
-        errEl.textContent = 'Dompet asal dan dompet tujuan tidak boleh sama.';
+      if (formTxType === 'transfer' && wallet_id === to_wallet_id) {
+        errEl.textContent = 'Dompet asal dan dompet tujuan transfer tidak boleh sama.';
         errEl.classList.remove('hidden');
         return;
       }
 
       const txPayload = {
-        id: id || generateId('tx'),
+        id: existingId || generateId('tx'),
         type: formTxType,
         amount,
-        categoryId: formTxType === 'transfer' ? null : selectedCategoryId,
-        walletId,
-        toWalletId,
+        category_id: formTxType === 'transfer' ? null : selectedCategoryId,
+        wallet_id,
+        to_wallet_id,
         date,
         note
       };
 
-      if (id) {
-        const idx = state.transactions.findIndex(t => t.id === id);
+      if (existingId) {
+        const idx = state.transactions.findIndex(t => t.id === existingId);
         if (idx !== -1) state.transactions[idx] = txPayload;
-        showToast('Transaksi berhasil diperbarui', 'success');
       } else {
         state.transactions.unshift(txPayload);
-        showToast('Transaksi baru ditambahkan', 'success');
       }
 
-      // Sync selected month to transaction month so user immediately sees it
       if (date && date.length >= 7) {
         state.selectedMonth = date.slice(0, 7);
       }
 
-      saveState();
+      saveLocalCache();
       closeTransactionModal();
       renderAll();
-      await syncSingleTxToCloud(txPayload);
+
+      // Sync to Cloudflare D1
+      try {
+        if (existingId) {
+          await apiRequest(`/api/transactions/${existingId}`, 'PUT', txPayload);
+          showToast('Transaksi diperbarui di Cloudflare D1', 'success');
+        } else {
+          await apiRequest('/api/transactions', 'POST', txPayload);
+          showToast('Transaksi tersimpan di Cloudflare D1', 'success');
+        }
+        updateD1StatusUI(true);
+      } catch (err) {
+        updateD1StatusUI(false);
+        showToast('Tersimpan lokal (Mode Offline)', 'info');
+      }
     }
 
     function confirmDeleteCurrentTx() {
@@ -1900,28 +2190,35 @@ CREATE TABLE IF NOT EXISTS transactions (
       if (!tx) return;
       openConfirmModal({
         title: 'Hapus Transaksi?',
-        message: `Transaksi "${tx.note || 'Tanpa catatan'}" senilai ${formatRupiah(tx.amount)} akan dihapus dan saldo dompet akan dihitung ulang.`,
+        message: `Transaksi "${tx.note || 'Tanpa catatan'}" senilai ${formatRupiah(tx.amount)} akan dihapus dan saldo dompet otomatis disesuaikan.`,
         onConfirm: async () => {
           state.transactions = state.transactions.filter(t => t.id !== id);
-          saveState();
+          saveLocalCache();
           renderAll();
-          showToast('Transaksi berhasil dihapus', 'info');
-          await deleteTxFromCloud(id);
+
+          try {
+            await apiRequest(`/api/transactions/${id}`, 'DELETE');
+            updateD1StatusUI(true);
+            showToast('Transaksi dihapus dari Cloudflare D1', 'success');
+          } catch (err) {
+            updateD1StatusUI(false);
+            showToast('Transaksi dihapus secara lokal', 'info');
+          }
         }
       });
     }
 
     // =========================================================================
-    // 9. RENDERING: ANALITIK TAB (CHART.JS DONUT & 6-MONTH BAR CHART)
+    // 9. RENDERING: TAB ANALITIK (CHART.JS DONUT & 6-MONTH BAR CHART)
     // =========================================================================
     function renderAnalyticsCharts() {
       const metrics = getMonthlyMetrics(state.selectedMonth);
-      const monthTxs = state.transactions.filter(t => t.type === 'expense' && t.date && t.date.startsWith(state.selectedMonth));
+      const monthExpenses = state.transactions.filter(t => t.type === 'expense' && t.date && t.date.startsWith(state.selectedMonth));
 
-      // Smart Financial Insights
       const [y, m] = state.selectedMonth.split('-').map(Number);
       const daysInMonth = new Date(y, m, 0).getDate();
       const avgDaily = Math.round(metrics.expense / daysInMonth);
+
       document.getElementById('insightAvgDaily').textContent = formatCompactRupiah(avgDaily);
       document.getElementById('insightSavingsRate').textContent = `${metrics.savingsRate}%`;
       document.getElementById('insightSavingsRate').className = metrics.savingsRate >= 20
@@ -1932,8 +2229,8 @@ CREATE TABLE IF NOT EXISTS transactions (
 
       // Group Expenses by Category
       const catTotals = {};
-      for (const t of monthTxs) {
-        const cid = t.categoryId || 'cat_other_exp';
+      for (const t of monthExpenses) {
+        const cid = t.category_id || 'cat_other';
         catTotals[cid] = (catTotals[cid] || 0) + (Number(t.amount) || 0);
       }
 
@@ -1944,7 +2241,6 @@ CREATE TABLE IF NOT EXISTS transactions (
             catId,
             name: cat.name,
             color: cat.color,
-            icon: cat.icon,
             total,
             pct: metrics.expense > 0 ? Math.round((total / metrics.expense) * 100) : 0
           };
@@ -1954,7 +2250,6 @@ CREATE TABLE IF NOT EXISTS transactions (
       document.getElementById('insightTopCategory').textContent = breakdown.length > 0 ? breakdown[0].name : '-';
       document.getElementById('donutTotalBadge').textContent = formatRupiah(metrics.expense);
 
-      // Donut Chart Rendering
       const donutCanvas = document.getElementById('expenseDonutChart');
       const donutEmpty = document.getElementById('donutEmptyState');
       const legendEl = document.getElementById('donutCustomLegend');
@@ -1967,7 +2262,7 @@ CREATE TABLE IF NOT EXISTS transactions (
       if (breakdown.length === 0) {
         donutCanvas.classList.add('hidden');
         donutEmpty.classList.remove('hidden');
-        legendEl.innerHTML = `<p class="text-[11px] text-center text-slate-400">Tidak ada rincian kategori untuk ditampilkan.</p>`;
+        legendEl.innerHTML = `<p class="text-[11px] text-center text-slate-400">Tidak ada pengeluaran pada bulan ini.</p>`;
       } else {
         donutCanvas.classList.remove('hidden');
         donutEmpty.classList.add('hidden');
@@ -2092,10 +2387,10 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     // =========================================================================
-    // 10. FULL CRUD: WALLETS, BUDGETS & CATEGORIES
+    // 10. FULL CRUD: DOMPET, ANGGARAN & KATEGORI
     // =========================================================================
     function renderDompetAndBudgetTab() {
-      // 1. Wallets List
+      // 1. Kelola Dompet
       const walletsListEl = document.getElementById('manageWalletsList');
       walletsListEl.innerHTML = state.wallets.map(w => {
         const currentBal = getWalletBalance(w.id);
@@ -2109,17 +2404,17 @@ CREATE TABLE IF NOT EXISTS transactions (
               <div class="min-w-0">
                 <div class="flex items-center gap-1.5">
                   <h4 class="text-xs font-extrabold text-slate-900 dark:text-white truncate">${escapeHTML(w.name)}</h4>
-                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#1E293B] text-slate-500 dark:text-slate-300 font-semibold">${w.type}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-[#1E293B] text-slate-500 dark:text-slate-300 font-semibold">${escapeHTML(w.type)}</span>
                 </div>
                 <p class="text-sm font-extrabold text-indigo-600 dark:text-indigo-400 mt-0.5">${formatRupiah(currentBal)}</p>
-                <p class="text-[10px] text-slate-400">Saldo awal: ${formatRupiah(w.initialBalance)}</p>
+                <p class="text-[10px] text-slate-400">Saldo awal: ${formatRupiah(w.initial_balance)}</p>
               </div>
             </div>
             <div class="flex items-center gap-1.5 flex-shrink-0">
-              <button onclick="openWalletModal('${w.id}')" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300 hover:text-indigo-500 flex items-center justify-center transition">
+              <button onclick="openWalletModal('${w.id}')" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-[#1E293B] text-slate-600 dark:text-slate-300 hover:text-indigo-500 flex items-center justify-center transition" title="Edit Dompet">
                 <i class="fas fa-pen text-xs"></i>
               </button>
-              <button onclick="askDeleteWallet('${w.id}')" class="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 flex items-center justify-center transition">
+              <button onclick="askDeleteWallet('${w.id}')" class="w-8 h-8 rounded-xl bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 flex items-center justify-center transition" title="Hapus Dompet">
                 <i class="fas fa-trash text-xs"></i>
               </button>
             </div>
@@ -2127,24 +2422,27 @@ CREATE TABLE IF NOT EXISTS transactions (
         `;
       }).join('');
 
-      // 2. Budgets List
+      // 2. Kelola Anggaran Bulanan
       const budgetsListEl = document.getElementById('manageBudgetsList');
-      if (state.budgets.length === 0) {
-        budgetsListEl.innerHTML = `<div class="p-6 text-center text-xs text-slate-500 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-[#1F2937]">Belum ada anggaran diatur. Klik <strong>+ Budget</strong> untuk mulai.</div>`;
+      let monthBudgets = state.budgets.filter(b => b.month === state.selectedMonth);
+      if (monthBudgets.length === 0) monthBudgets = state.budgets;
+
+      if (monthBudgets.length === 0) {
+        budgetsListEl.innerHTML = `<div class="p-6 text-center text-xs text-slate-500 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-[#1F2937]">Belum ada anggaran bulanan. Klik <strong>+ Anggaran</strong> untuk mengatur limit kategori.</div>`;
       } else {
-        budgetsListEl.innerHTML = state.budgets.map(b => {
-          const cat = state.categories.find(c => c.id === b.categoryId) || { name: 'Kategori', icon: 'fa-tag', color: '#6366F1' };
-          const spent = getCategorySpentInMonth(b.categoryId, state.selectedMonth);
-          const limit = Number(b.limit) || 1;
+        budgetsListEl.innerHTML = monthBudgets.map(b => {
+          const cat = state.categories.find(c => c.id === b.category_id) || { name: 'Kategori', icon: 'fa-tag', color: '#6366F1' };
+          const spent = getCategorySpentInMonth(b.category_id, state.selectedMonth);
+          const limit = Number(b.limit_amount) || 1;
           const rawPct = Math.round((spent / limit) * 100);
           const barPct = Math.min(100, rawPct);
           const remaining = limit - spent;
 
-          const barColor = rawPct >= 100 ? 'bg-rose-500' : rawPct >= 80 ? 'bg-amber-500' : 'bg-emerald-500';
+          const barColor = rawPct >= 100 ? 'bg-rose-500' : rawPct >= 75 ? 'bg-amber-500' : 'bg-emerald-500';
           const statusBadge = rawPct >= 100
-            ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-500">Melebihi Limit!</span>`
-            : rawPct >= 80
-              ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500">Hampir Penuh</span>`
+            ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-500">Melebihi Limit</span>`
+            : rawPct >= 75
+              ? `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500">Waspada</span>`
               : `<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-500">Aman</span>`;
 
           return `
@@ -2189,7 +2487,7 @@ CREATE TABLE IF NOT EXISTS transactions (
         }).join('');
       }
 
-      // 3. Categories List
+      // 3. Kelola Kategori
       const catListEl = document.getElementById('manageCategoriesList');
       catListEl.innerHTML = state.categories.map(c => `
         <div class="bg-white dark:bg-[#111827] border border-slate-200 dark:border-[#1F2937] rounded-2xl p-3 flex items-center justify-between">
@@ -2221,7 +2519,8 @@ CREATE TABLE IF NOT EXISTS transactions (
         document.getElementById('walletIdInput').value = w.id;
         document.getElementById('walletNameInput').value = w.name;
         document.getElementById('walletTypeInput').value = w.type;
-        document.getElementById('walletInitBalanceInput').value = Number(w.initialBalance).toLocaleString('id-ID');
+        document.getElementById('walletInitBalanceInput').value = Number(w.initial_balance).toLocaleString('id-ID');
+        document.getElementById('walletIconInput').value = w.icon || 'fa-wallet';
         selectWalletColor(w.color || 'indigo');
       } else {
         document.getElementById('walletModalTitle').textContent = 'Tambah Dompet Baru';
@@ -2229,6 +2528,7 @@ CREATE TABLE IF NOT EXISTS transactions (
         document.getElementById('walletNameInput').value = '';
         document.getElementById('walletTypeInput').value = 'Bank';
         document.getElementById('walletInitBalanceInput').value = '0';
+        document.getElementById('walletIconInput').value = 'fa-building-columns';
         selectWalletColor('indigo');
       }
       modal.classList.remove('hidden');
@@ -2236,6 +2536,13 @@ CREATE TABLE IF NOT EXISTS transactions (
 
     function closeWalletModal() {
       document.getElementById('walletModal').classList.add('hidden');
+    }
+
+    function syncWalletTypeDefaults(typeVal) {
+      const iconSelect = document.getElementById('walletIconInput');
+      if (WALLET_TYPE_ICONS[typeVal]) {
+        iconSelect.value = WALLET_TYPE_ICONS[typeVal];
+      }
     }
 
     function selectWalletColor(color) {
@@ -2250,37 +2557,36 @@ CREATE TABLE IF NOT EXISTS transactions (
       });
     }
 
-    function saveWallet(event) {
+    async function saveWallet(event) {
       event.preventDefault();
-      const id = document.getElementById('walletIdInput').value;
+      const id = document.getElementById('walletIdInput').value || generateId('wal');
       const name = document.getElementById('walletNameInput').value.trim();
       const type = document.getElementById('walletTypeInput').value;
-      const initialBalance = parseFormattedNumber(document.getElementById('walletInitBalanceInput').value);
-      const icon = WALLET_TYPE_ICONS[type] || 'fa-wallet';
+      const initial_balance = parseFormattedNumber(document.getElementById('walletInitBalanceInput').value);
+      const icon = document.getElementById('walletIconInput').value;
 
       if (!name) return;
 
-      if (id) {
-        const idx = state.wallets.findIndex(w => w.id === id);
-        if (idx !== -1) {
-          state.wallets[idx] = { ...state.wallets[idx], name, type, initialBalance, color: selectedWalletColor, icon };
-        }
-        showToast('Dompet diperbarui', 'success');
+      const walletObj = { id, name, type, initial_balance, color: selectedWalletColor, icon };
+      const idx = state.wallets.findIndex(w => w.id === id);
+      if (idx !== -1) {
+        state.wallets[idx] = walletObj;
       } else {
-        state.wallets.push({
-          id: generateId('wal'),
-          name,
-          type,
-          initialBalance,
-          color: selectedWalletColor,
-          icon
-        });
-        showToast('Dompet baru ditambahkan', 'success');
+        state.wallets.push(walletObj);
       }
 
-      saveState();
+      saveLocalCache();
       closeWalletModal();
       renderAll();
+
+      try {
+        await apiRequest('/api/wallets', 'POST', walletObj);
+        updateD1StatusUI(true);
+        showToast('Dompet tersimpan di Cloudflare D1', 'success');
+      } catch (err) {
+        updateD1StatusUI(false);
+        showToast('Dompet tersimpan di Mode Lokal', 'info');
+      }
     }
 
     function askDeleteWallet(walletId) {
@@ -2291,13 +2597,21 @@ CREATE TABLE IF NOT EXISTS transactions (
       const w = state.wallets.find(item => item.id === walletId);
       openConfirmModal({
         title: `Hapus Dompet "${w.name}"?`,
-        message: 'Dompet dan riwayat transaksi yang terhubung ke dompet ini akan dihapus permanen.',
-        onConfirm: () => {
+        message: 'Dompet dan transaksi yang menggunakan dompet ini akan dihapus permanen.',
+        onConfirm: async () => {
           state.wallets = state.wallets.filter(item => item.id !== walletId);
-          state.transactions = state.transactions.filter(t => t.walletId !== walletId && t.toWalletId !== walletId);
-          saveState();
+          state.transactions = state.transactions.filter(t => t.wallet_id !== walletId && t.to_wallet_id !== walletId);
+          saveLocalCache();
           renderAll();
-          showToast('Dompet berhasil dihapus', 'info');
+
+          try {
+            await apiRequest(`/api/wallets/${walletId}`, 'DELETE');
+            updateD1StatusUI(true);
+            showToast('Dompet dihapus dari Cloudflare D1', 'success');
+          } catch (err) {
+            updateD1StatusUI(false);
+            showToast('Dompet dihapus secara lokal', 'info');
+          }
         }
       });
     }
@@ -2311,10 +2625,10 @@ CREATE TABLE IF NOT EXISTS transactions (
       if (budgetId) {
         const b = state.budgets.find(item => item.id === budgetId);
         if (!b) return;
-        document.getElementById('budgetModalTitle').textContent = 'Edit Anggaran';
+        document.getElementById('budgetModalTitle').textContent = 'Edit Anggaran Bulanan';
         document.getElementById('budgetIdInput').value = b.id;
-        select.value = b.categoryId;
-        document.getElementById('budgetLimitInput').value = Number(b.limit).toLocaleString('id-ID');
+        select.value = b.category_id;
+        document.getElementById('budgetLimitInput').value = Number(b.limit_amount).toLocaleString('id-ID');
       } else {
         document.getElementById('budgetModalTitle').textContent = 'Atur Anggaran Bulanan';
         document.getElementById('budgetIdInput').value = '';
@@ -2327,35 +2641,43 @@ CREATE TABLE IF NOT EXISTS transactions (
       document.getElementById('budgetModal').classList.add('hidden');
     }
 
-    function saveBudget(event) {
+    async function saveBudget(event) {
       event.preventDefault();
-      const id = document.getElementById('budgetIdInput').value;
-      const categoryId = document.getElementById('budgetCategorySelect').value;
-      const limit = parseFormattedNumber(document.getElementById('budgetLimitInput').value);
+      const existingId = document.getElementById('budgetIdInput').value;
+      const category_id = document.getElementById('budgetCategorySelect').value;
+      const limit_amount = parseFormattedNumber(document.getElementById('budgetLimitInput').value);
 
-      if (limit <= 0) {
+      if (limit_amount <= 0) {
         showToast('Nominal anggaran harus lebih dari Rp 0', 'error');
         return;
       }
 
-      if (id) {
-        const idx = state.budgets.findIndex(b => b.id === id);
-        if (idx !== -1) state.budgets[idx] = { ...state.budgets[idx], categoryId, limit };
-        showToast('Anggaran diperbarui', 'success');
+      const existingIdx = state.budgets.findIndex(b => b.id === existingId || (b.category_id === category_id && b.month === state.selectedMonth));
+      const budgetObj = {
+        id: existingIdx !== -1 ? state.budgets[existingIdx].id : generateId('bud'),
+        category_id,
+        month: state.selectedMonth,
+        limit_amount
+      };
+
+      if (existingIdx !== -1) {
+        state.budgets[existingIdx] = budgetObj;
       } else {
-        const existingIdx = state.budgets.findIndex(b => b.categoryId === categoryId);
-        if (existingIdx !== -1) {
-          state.budgets[existingIdx].limit = limit;
-          showToast('Batas anggaran kategori diperbarui', 'success');
-        } else {
-          state.budgets.push({ id: generateId('bud'), categoryId, limit });
-          showToast('Anggaran baru disimpan', 'success');
-        }
+        state.budgets.push(budgetObj);
       }
 
-      saveState();
+      saveLocalCache();
       closeBudgetModal();
       renderAll();
+
+      try {
+        await apiRequest('/api/budgets', 'POST', budgetObj);
+        updateD1StatusUI(true);
+        showToast('Anggaran tersimpan di Cloudflare D1', 'success');
+      } catch (err) {
+        updateD1StatusUI(false);
+        showToast('Anggaran tersimpan di Mode Lokal', 'info');
+      }
     }
 
     function askDeleteBudget(budgetId) {
@@ -2364,7 +2686,7 @@ CREATE TABLE IF NOT EXISTS transactions (
         message: 'Batas anggaran kategori ini akan dihapus.',
         onConfirm: () => {
           state.budgets = state.budgets.filter(b => b.id !== budgetId);
-          saveState();
+          saveLocalCache();
           renderAll();
           showToast('Anggaran dihapus', 'info');
         }
@@ -2381,7 +2703,7 @@ CREATE TABLE IF NOT EXISTS transactions (
       document.getElementById('categoryModal').classList.add('hidden');
     }
 
-    function saveCategory(event) {
+    async function saveCategory(event) {
       event.preventDefault();
       const name = document.getElementById('catNameInput').value.trim();
       const type = document.getElementById('catTypeInput').value;
@@ -2390,18 +2712,27 @@ CREATE TABLE IF NOT EXISTS transactions (
 
       if (!name) return;
 
-      state.categories.push({
+      const catObj = {
         id: generateId('cat'),
         name,
         type,
         icon,
         color
-      });
+      };
 
-      saveState();
+      state.categories.push(catObj);
+      saveLocalCache();
       closeCategoryModal();
       renderAll();
-      showToast(`Kategori "${name}" ditambahkan`, 'success');
+
+      try {
+        await apiRequest('/api/categories', 'POST', catObj);
+        updateD1StatusUI(true);
+        showToast(`Kategori "${name}" tersimpan di D1`, 'success');
+      } catch (err) {
+        updateD1StatusUI(false);
+        showToast(`Kategori "${name}" ditambahkan secara lokal`, 'info');
+      }
     }
 
     function askDeleteCategory(catId) {
@@ -2415,8 +2746,8 @@ CREATE TABLE IF NOT EXISTS transactions (
         message: 'Kategori ini akan dihapus dari daftar pilihan.',
         onConfirm: () => {
           state.categories = state.categories.filter(c => c.id !== catId);
-          state.budgets = state.budgets.filter(b => b.categoryId !== catId);
-          saveState();
+          state.budgets = state.budgets.filter(b => b.category_id !== catId);
+          saveLocalCache();
           renderAll();
           showToast('Kategori dihapus', 'info');
         }
@@ -2424,165 +2755,12 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     // =========================================================================
-    // 11. SUPABASE CLOUD SYNC, CSV EXPORT, JSON BACKUP & PRD MODAL
+    // 11. EXPORT JSON, RESET DATA & PRD MODAL
     // =========================================================================
-    function initSupabaseClientIfConfigured() {
-      const badge = document.getElementById('cloudStatusText');
-      if (state.supabase.url && state.supabase.anonKey && window.supabase) {
-        try {
-          supabaseClient = window.supabase.createClient(state.supabase.url, state.supabase.anonKey);
-          state.supabase.connected = true;
-          badge.textContent = 'Cloud';
-        } catch (e) {
-          supabaseClient = null;
-          state.supabase.connected = false;
-          badge.textContent = 'Lokal';
-        }
-      } else {
-        badge.textContent = 'Lokal';
-      }
-    }
-
-    async function connectAndPushSupabase() {
-      const url = document.getElementById('supabaseUrlInput').value.trim();
-      const anonKey = document.getElementById('supabaseKeyInput').value.trim();
-
-      if (!url || !anonKey) {
-        showToast('Masukkan Supabase URL dan Anon Key', 'error');
-        return;
-      }
-
-      state.supabase.url = url;
-      state.supabase.anonKey = anonKey;
-      initSupabaseClientIfConfigured();
-      saveState();
-
-      if (!supabaseClient) {
-        showToast('Gagal menginisialisasi klien Supabase', 'error');
-        return;
-      }
-
-      try {
-        showToast('Menyinkronkan data ke Supabase...', 'info');
-        // Upsert Wallets
-        const wRows = state.wallets.map(w => ({
-          id: w.id, name: w.name, type: w.type, initial_balance: w.initialBalance, color: w.color, icon: w.icon
-        }));
-        const { error: wErr } = await supabaseClient.from('wallets').upsert(wRows);
-        if (wErr) throw wErr;
-
-        // Upsert Categories
-        const { error: cErr } = await supabaseClient.from('categories').upsert(state.categories);
-        if (cErr) throw cErr;
-
-        // Upsert Budgets
-        const bRows = state.budgets.map(b => ({ id: b.id, category_id: b.categoryId, limit_amount: b.limit }));
-        const { error: bErr } = await supabaseClient.from('budgets').upsert(bRows);
-        if (bErr) throw bErr;
-
-        // Upsert Transactions
-        const tRows = state.transactions.map(t => ({
-          id: t.id, type: t.type, amount: t.amount, category_id: t.categoryId,
-          wallet_id: t.walletId, to_wallet_id: t.toWalletId, date: t.date, note: t.note
-        }));
-        const { error: tErr } = await supabaseClient.from('transactions').upsert(tRows);
-        if (tErr) throw tErr;
-
-        document.getElementById('supabaseSyncNote').textContent = `Terhubung & tersinkronisasi (${new Date().toLocaleTimeString('id-ID')})`;
-        showToast('Berhasil Push semua data ke PostgreSQL!', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast(`Gagal sync: ${err.message || 'Periksa tabel SQL Supabase'}`, 'error');
-      }
-    }
-
-    async function pullFromSupabase() {
-      initSupabaseClientIfConfigured();
-      if (!supabaseClient) {
-        showToast('Isi kredensial Supabase terlebih dahulu', 'error');
-        return;
-      }
-      try {
-        const [wRes, cRes, bRes, tRes] = await Promise.all([
-          supabaseClient.from('wallets').select('*'),
-          supabaseClient.from('categories').select('*'),
-          supabaseClient.from('budgets').select('*'),
-          supabaseClient.from('transactions').select('*')
-        ]);
-
-        if (wRes.error) throw wRes.error;
-        if (wRes.data && wRes.data.length > 0) {
-          state.wallets = wRes.data.map(w => ({
-            id: w.id, name: w.name, type: w.type, initialBalance: Number(w.initial_balance), color: w.color, icon: w.icon
-          }));
-        }
-        if (cRes.data && cRes.data.length > 0) {
-          state.categories = cRes.data;
-        }
-        if (bRes.data && bRes.data.length > 0) {
-          state.budgets = bRes.data.map(b => ({ id: b.id, categoryId: b.category_id, limit: Number(b.limit_amount) }));
-        }
-        if (tRes.data) {
-          state.transactions = tRes.data.map(t => ({
-            id: t.id, type: t.type, amount: Number(t.amount), categoryId: t.category_id,
-            walletId: t.wallet_id, toWalletId: t.to_wallet_id, date: t.date, note: t.note
-          }));
-        }
-        saveState();
-        renderAll();
-        showToast('Data terbaru berhasil ditarik dari Cloud!', 'success');
-      } catch (err) {
-        showToast(`Gagal pull: ${err.message}`, 'error');
-      }
-    }
-
-    async function syncSingleTxToCloud(tx) {
-      if (!supabaseClient) return;
-      try {
-        await supabaseClient.from('transactions').upsert({
-          id: tx.id, type: tx.type, amount: tx.amount, category_id: tx.categoryId,
-          wallet_id: tx.walletId, to_wallet_id: tx.toWalletId, date: tx.date, note: tx.note
-        });
-      } catch (e) {
-        console.warn('Background sync skipped:', e);
-      }
-    }
-
-    async function deleteTxFromCloud(txId) {
-      if (!supabaseClient) return;
-      try {
-        await supabaseClient.from('transactions').delete().eq('id', txId);
-      } catch (e) {
-        console.warn('Background delete skipped:', e);
-      }
-    }
-
-    // Export CSV
-    function exportTransactionsCSV() {
-      const headers = ['ID', 'Tanggal', 'Tipe', 'Kategori', 'Dompet Asal', 'Dompet Tujuan', 'Nominal (Rp)', 'Catatan'];
-      const rows = state.transactions.map(t => {
-        const cat = state.categories.find(c => c.id === t.categoryId)?.name || 'Transfer';
-        const w1 = state.wallets.find(w => w.id === t.walletId)?.name || '';
-        const w2 = state.wallets.find(w => w.id === t.toWalletId)?.name || '';
-        return [t.id, t.date, t.type, `"${cat}"`, `"${w1}"`, `"${w2}"`, t.amount, `"${(t.note || '').replace(/"/g, '""')}"`].join(',');
-      });
-
-      const csvContent = '\uFEFF' + [headers.join(','), ...rows].join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `MoneyFlow_Transaksi_${state.selectedMonth}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('File CSV berhasil diunduh', 'success');
-    }
-
-    // Export JSON Backup
     function exportBackupJSON() {
       const payload = {
-        app: 'Money Flow',
-        exportedAt: new Date().toISOString(),
+        app: 'Money Flow (Cloudflare D1)',
+        exported_at: new Date().toISOString(),
         wallets: state.wallets,
         categories: state.categories,
         budgets: state.budgets,
@@ -2592,46 +2770,25 @@ CREATE TABLE IF NOT EXISTS transactions (
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `MoneyFlow_Backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.download = `MoneyFlow_D1_Backup_${getTodayISO()}.json`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('Backup JSON berhasil disimpan', 'success');
+      showToast('File backup JSON berhasil diunduh', 'success');
     }
 
-    // Import JSON Backup
-    function importBackupJSON(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const data = JSON.parse(e.target.result);
-          if (!data.wallets || !data.transactions) throw new Error('Format file tidak valid');
-          state.wallets = data.wallets;
-          state.categories = data.categories || state.categories;
-          state.budgets = data.budgets || [];
-          state.transactions = data.transactions;
-          saveState();
-          renderAll();
-          showToast('Data berhasil di-restore dari JSON!', 'success');
-        } catch (err) {
-          showToast('Gagal membaca file backup JSON', 'error');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function confirmSeedDemoData() {
+    function confirmResetData() {
       openConfirmModal({
-        title: 'Reset ke Data Demo?',
-        message: 'Semua data saat ini akan diganti dengan contoh transaksi, dompet, dan anggaran November 2026.',
+        title: 'Reset Data Aplikasi?',
+        message: 'Data lokal akan dikembalikan ke data awal default (Bank BCA, GoPay, Tunai & kategori standar Indonesia).',
         onConfirm: () => {
-          seedDefaultData(true);
+          localStorage.removeItem(STORAGE_KEY);
+          loadLocalCache();
+          renderAll();
+          showToast('Data berhasil di-reset ke bawaan', 'success');
         }
       });
     }
 
-    // PRD Modal Controls
     function openPrdModal(tab = 'prd') {
       document.getElementById('prdModal').classList.remove('hidden');
       switchPrdTab(tab);
@@ -2642,7 +2799,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     function switchPrdTab(tab) {
-      ['prd', 'sql', 'steps'].forEach(t => {
+      ['prd', 'sql', 'worker'].forEach(t => {
         document.getElementById(`prdTab-${t}`).classList.toggle('hidden', t !== tab);
       });
       document.querySelectorAll('.prd-tab-btn').forEach(btn => {
@@ -2653,23 +2810,23 @@ CREATE TABLE IF NOT EXISTS transactions (
       });
     }
 
-    function copySqlSchema() {
-      const code = document.getElementById('supabaseSqlCode').textContent;
+    function copyCodeBlock(elementId) {
+      const code = document.getElementById(elementId).textContent;
       const textarea = document.createElement('textarea');
       textarea.value = code;
       document.body.appendChild(textarea);
       textarea.select();
       try {
         document.execCommand('copy');
-        showToast('Skema SQL disalin ke clipboard!', 'success');
+        showToast('Kode berhasil disalin ke clipboard!', 'success');
       } catch (e) {
-        showToast('Gagal menyalin teks', 'error');
+        showToast('Gagal menyalin kode', 'error');
       }
       document.body.removeChild(textarea);
     }
 
     // =========================================================================
-    // 12. CUSTOM CONFIRMATION MODAL & TOAST SYSTEM
+    // 12. CUSTOM CONFIRMATION MODAL & TOAST NOTIFICATION
     // =========================================================================
     let confirmCallback = null;
 
@@ -2725,8 +2882,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     }
 
     window.onload = function () {
-      loadState();
-      renderAll();
+      initializeApp();
     };
   </script>
 </body>
