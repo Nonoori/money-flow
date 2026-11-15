@@ -1,9 +1,0 @@
-name = "moneyflow8"
-compatibility_date = "2026-11-14"
-pages_build_output_dir = "."
-
-[[d1_databases]]
-binding = "DB"
-database_name = "money-flow-db"
-database_id = "9876104c-2220-47bc-937e-6a9b6104bc81"
- 
