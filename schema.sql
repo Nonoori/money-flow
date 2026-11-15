@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS split_installments (
   id TEXT PRIMARY KEY,
   group_id TEXT NOT NULL,
   member_id TEXT NOT NULL,
-  payment_type TEXT DEFAULT 'cicilan' CHECK (payment_type IN ('dp', 'cicilan', 'pelunasan')),
+  payment_type TEXT DEFAULT 'cicilan',
   amount INTEGER NOT NULL,
   bank_id TEXT NOT NULL,
   date TEXT NOT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS split_expenses (
 
 CREATE TABLE IF NOT EXISTS trades (
   id TEXT PRIMARY KEY,
-  trade_type TEXT NOT NULL CHECK (trade_type IN ('sell', 'buy')),
+  trade_type TEXT NOT NULL,
   item_name TEXT NOT NULL,
   qty INTEGER DEFAULT 1,
   unit_price INTEGER NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS assets (
 
 CREATE TABLE IF NOT EXISTS debts (
   id TEXT PRIMARY KEY,
-  debt_type TEXT NOT NULL CHECK (debt_type IN ('payable', 'receivable')),
+  debt_type TEXT NOT NULL,
   person_name TEXT NOT NULL,
   title TEXT NOT NULL,
   total_amount INTEGER NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS kid_expenses (
   category TEXT DEFAULT 'Jajan',
   bank_id TEXT DEFAULT '',
   date TEXT NOT NULL,
-  audit_status TEXT DEFAULT 'pending' CHECK (audit_status IN ('pending', 'approved', 'clarify', 'rejected')),
+  audit_status TEXT DEFAULT 'pending',
   parent_note TEXT DEFAULT '',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS worker_logs (
   bank_id TEXT DEFAULT '',
   receipt_ref TEXT DEFAULT '',
   date TEXT NOT NULL,
-  audit_status TEXT DEFAULT 'pending' CHECK (audit_status IN ('pending', 'verified', 'revision', 'rejected')),
+  audit_status TEXT DEFAULT 'pending',
   foreman_note TEXT DEFAULT '',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
@@ -234,14 +234,3 @@ CREATE TABLE IF NOT EXISTS activity_logs (
   detail TEXT DEFAULT '',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE INDEX IF NOT EXISTS idx_tx_date ON transactions(date);
-CREATE INDEX IF NOT EXISTS idx_tx_wallet ON transactions(wallet_id);
-CREATE INDEX IF NOT EXISTS idx_tx_ref ON transactions(ref_source, ref_id);
-CREATE INDEX IF NOT EXISTS idx_split_inst_grp ON split_installments(group_id);
-CREATE INDEX IF NOT EXISTS idx_split_inst_mem ON split_installments(member_id);
-CREATE INDEX IF NOT EXISTS idx_debt_pay_debt ON debt_payments(debt_id);
-CREATE INDEX IF NOT EXISTS idx_trades_date ON trades(date);
-CREATE INDEX IF NOT EXISTS idx_kid_exp_kid ON kid_expenses(kid_id);
-CREATE INDEX IF NOT EXISTS idx_worker_proj ON worker_logs(project_id);
-CREATE INDEX IF NOT EXISTS idx_logs_created ON activity_logs(created_at);
